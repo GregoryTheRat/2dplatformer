@@ -180,8 +180,14 @@ CMakeFiles/2DPLATFORMER.dir/main.cpp.o: ../../main.cpp \
   /usr/include/c++/11/bits/basic_ios.tcc \
   /usr/include/c++/11/bits/ostream.tcc \
   /usr/include/c++/11/istream \
-  /usr/include/c++/11/bits/istream.tcc
+  /usr/include/c++/11/bits/istream.tcc \
+  ../../external/glfw/include/GLFW/glfw3.h \
+  /usr/include/GL/gl.h \
+  /usr/include/GL/glext.h \
+  /usr/include/KHR/khrplatform.h
 
+
+/usr/include/KHR/khrplatform.h:
 
 /usr/include/c++/11/bits/istream.tcc:
 
@@ -236,6 +242,8 @@ CMakeFiles/2DPLATFORMER.dir/main.cpp.o: ../../main.cpp \
 /usr/include/c++/11/bits/std_abs.h:
 
 /usr/include/alloca.h:
+
+../../external/glfw/include/GLFW/glfw3.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
 
@@ -303,6 +311,8 @@ CMakeFiles/2DPLATFORMER.dir/main.cpp.o: ../../main.cpp \
 
 /usr/include/c++/11/bits/stl_iterator_base_types.h:
 
+/usr/include/GL/glext.h:
+
 /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__FILE.h:
@@ -368,6 +378,8 @@ CMakeFiles/2DPLATFORMER.dir/main.cpp.o: ../../main.cpp \
 /usr/include/c++/11/ext/numeric_traits.h:
 
 /usr/include/c++/11/ext/type_traits.h:
+
+/usr/include/GL/gl.h:
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h:
 

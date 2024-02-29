@@ -1,1 +1,1 @@
-/usr/bin/c++ CMakeFiles/2DPLATFORMER.dir/main.cpp.o -o 2DPLATFORMER 
+/usr/bin/c++ CMakeFiles/2DPLATFORMER.dir/main.cpp.o -o 2DPLATFORMER   -L/home/ratatouille/2d_platformer/external/glfw/src  -Wl,-rpath,/home/ratatouille/2d_platformer/external/glfw/src external/glfw/src/libglfw3.a /usr/lib/x86_64-linux-gnu/librt.a -lm -ldl 

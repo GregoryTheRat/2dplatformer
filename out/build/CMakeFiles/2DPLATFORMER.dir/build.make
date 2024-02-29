@@ -92,6 +92,9 @@ CMakeFiles/2DPLATFORMER.dir/main.cpp.s: cmake_force
 
 2DPLATFORMER: CMakeFiles/2DPLATFORMER.dir/main.cpp.o
 2DPLATFORMER: CMakeFiles/2DPLATFORMER.dir/build.make
+2DPLATFORMER: external/glfw/src/libglfw3.a
+2DPLATFORMER: /usr/lib/x86_64-linux-gnu/librt.a
+2DPLATFORMER: /usr/lib/x86_64-linux-gnu/libm.so
 2DPLATFORMER: CMakeFiles/2DPLATFORMER.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ratatouille/2d_platformer/out/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable 2DPLATFORMER"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/2DPLATFORMER.dir/link.txt --verbose=$(VERBOSE)
