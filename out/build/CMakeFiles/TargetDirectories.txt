@@ -1,0 +1,3 @@
+/home/ratatouille/2d_platformer/out/build/CMakeFiles/2DPLATFORMER.dir
+/home/ratatouille/2d_platformer/out/build/CMakeFiles/edit_cache.dir
+/home/ratatouille/2d_platformer/out/build/CMakeFiles/rebuild_cache.dir

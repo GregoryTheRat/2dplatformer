@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/2DPLATFORMER.dir/main.cpp.o -o 2DPLATFORMER 
