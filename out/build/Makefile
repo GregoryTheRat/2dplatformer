@@ -213,6 +213,19 @@ update_mappings/fast:
 	$(MAKE) $(MAKESILENT) -f external/glfw/src/CMakeFiles/update_mappings.dir/build.make external/glfw/src/CMakeFiles/update_mappings.dir/build
 .PHONY : update_mappings/fast
 
+#=============================================================================
+# Target rules for targets named glad
+
+# Build rule for target.
+glad: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 glad
+.PHONY : glad
+
+# fast build rule for target.
+glad/fast:
+	$(MAKE) $(MAKESILENT) -f external/glad/CMakeFiles/glad.dir/build.make external/glad/CMakeFiles/glad.dir/build
+.PHONY : glad/fast
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -252,6 +265,7 @@ help:
 	@echo "... uninstall"
 	@echo "... update_mappings"
 	@echo "... 2DPLATFORMER"
+	@echo "... glad"
 	@echo "... glfw"
 	@echo "... main.o"
 	@echo "... main.i"

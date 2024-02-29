@@ -20,3 +20,10 @@
 /home/ratatouille/2d_platformer/out/build/external/glfw/src/CMakeFiles/install.dir
 /home/ratatouille/2d_platformer/out/build/external/glfw/src/CMakeFiles/install/local.dir
 /home/ratatouille/2d_platformer/out/build/external/glfw/src/CMakeFiles/install/strip.dir
+/home/ratatouille/2d_platformer/out/build/external/glad/CMakeFiles/glad.dir
+/home/ratatouille/2d_platformer/out/build/external/glad/CMakeFiles/edit_cache.dir
+/home/ratatouille/2d_platformer/out/build/external/glad/CMakeFiles/rebuild_cache.dir
+/home/ratatouille/2d_platformer/out/build/external/glad/CMakeFiles/list_install_components.dir
+/home/ratatouille/2d_platformer/out/build/external/glad/CMakeFiles/install.dir
+/home/ratatouille/2d_platformer/out/build/external/glad/CMakeFiles/install/local.dir
+/home/ratatouille/2d_platformer/out/build/external/glad/CMakeFiles/install/strip.dir

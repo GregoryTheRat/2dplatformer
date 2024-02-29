@@ -336,6 +336,15 @@ GLFW_LIBRARY_TYPE:STRING=
 //Value Computed by CMake
 GLFW_SOURCE_DIR:STATIC=/home/ratatouille/2d_platformer/external/glfw
 
+//Value Computed by CMake
+Glad_BINARY_DIR:STATIC=/home/ratatouille/2d_platformer/out/build/external/glad
+
+//Value Computed by CMake
+Glad_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+Glad_SOURCE_DIR:STATIC=/home/ratatouille/2d_platformer/external/glad
+
 //Path to a library.
 MATH_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libm.so
 
@@ -760,7 +769,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=3
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=4
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

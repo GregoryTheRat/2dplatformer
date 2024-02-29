@@ -93,6 +93,7 @@ CMakeFiles/2DPLATFORMER.dir/main.cpp.s: cmake_force
 2DPLATFORMER: CMakeFiles/2DPLATFORMER.dir/main.cpp.o
 2DPLATFORMER: CMakeFiles/2DPLATFORMER.dir/build.make
 2DPLATFORMER: external/glfw/src/libglfw3.a
+2DPLATFORMER: external/glad/libglad.a
 2DPLATFORMER: /usr/lib/x86_64-linux-gnu/librt.a
 2DPLATFORMER: /usr/lib/x86_64-linux-gnu/libm.so
 2DPLATFORMER: CMakeFiles/2DPLATFORMER.dir/link.txt
