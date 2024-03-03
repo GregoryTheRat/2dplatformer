@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/Project.dir/main.cpp.o -o Project   -L/home/ratatouille/2d_platformer/external/glfw/src  -Wl,-rpath,/home/ratatouille/2d_platformer/external/glfw/src external/glfw/src/libglfw3.a /usr/lib/x86_64-linux-gnu/librt.a -lm -ldl 
