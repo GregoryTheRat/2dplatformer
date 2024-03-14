@@ -1,4 +1,5 @@
 #include <iostream>
+#include <math.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -11,15 +12,19 @@ const unsigned int SCR_HEIGHT = 600;
 
 const char *vertexShaderSource = "#version 420 core\n"
     "layout (location = 0) in vec3 aPos;\n"
+    "layout (location = 1) in vec3 aColor;\n"
+    "out vec3 ourColor;\n"
     "void main()\n"
     "{\n"
     "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+    "   ourColor = aColor;\n"
     "}\0";
 const char *fragmentShaderSource = "#version 420 core\n"
     "out vec4 FragColor;\n"
+    "in vec3 ourColor;\n"
     "void main()\n"
     "{\n"
-    "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+    "   FragColor = vec4(ourColor, 1.0f);\n"
     "}\0";
 
 int main()
@@ -103,30 +108,54 @@ int main()
     glDeleteShader(fragmentShader);
     
     //set up vertex data, buffers, and config vertex attr.
+    //single triangle
     float vertices[] = {
         -0.5f, -0.5f, 0.0f, //left
         0.5f, -0.5f, 0.0f,  //right
         0.0f, 0.5f, 0.0f    //top
     };
 
+    //rectangle made of two triangles (4 vertices)
+    float rectangle_vertices[] = {
+        0.5f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  //top right
+        0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  //bottom right
+       -0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  //bottom left
+       -0.5f,  0.5f, 0.0f,  0.5f, 0.5f, 0.0f   //top left 
+    };
+    //indices for the rectangle (which vertices to use in what order)
+    unsigned int indices[] = {
+        0, 1, 3,
+        1, 2, 3
+    };
+
     //VBO, VAO
-    unsigned int VBO, VAO;
+    unsigned int VBO, EBO, VAO;
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO);
 
-    //binding VAO first so VBO and configs are saved to VAO
+    //binding VAO first so VBO & EBO configs are saved to VAO
     glBindVertexArray(VAO);
+    //VBO
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(rectangle_vertices), rectangle_vertices, GL_STATIC_DRAW);
+    //EBO
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-    //setting vertex attr pointer
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    //setting vertex attr pointer for coords
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
+    //setting vertex attr pointer for colors
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
 
-    //unbinding VBO and VAO
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    //unbinding VBO, EBO and VAO.  not always necessary
     glBindVertexArray(0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
+    //only drawing lines, so triangles can be differentiated.
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     //render loop
@@ -137,11 +166,12 @@ int main()
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        //draw triangle
         glUseProgram(shaderProgram);
-        glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
 
+        //render rectangle
+        glBindVertexArray(VAO);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
