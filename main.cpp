@@ -2,6 +2,7 @@
 #include <math.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <shader.h>
 
 void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
@@ -10,6 +11,7 @@ void processInput(GLFWwindow *window);
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
+//TODO: REMOVE
 const char *vertexShaderSource = "#version 420 core\n"
     "layout (location = 0) in vec3 aPos;\n"
     "layout (location = 1) in vec3 aColor;\n"
@@ -158,6 +160,7 @@ int main()
     //only drawing lines, so triangles can be differentiated.
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
+    Shader ourShader("src/shaders/shader.vs", "src/shaders/shader.fs");
     //render loop
     while (!glfwWindowShouldClose(window))
     {
