@@ -12,23 +12,8 @@ void processInput(GLFWwindow *window);
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
-//TODO: REMOVE
-const char *vertexShaderSource = "#version 420 core\n"
-    "layout (location = 0) in vec3 aPos;\n"
-    "layout (location = 1) in vec3 aColor;\n"
-    "out vec3 ourColor;\n"
-    "void main()\n"
-    "{\n"
-    "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-    "   ourColor = aColor;\n"
-    "}\0";
-const char *fragmentShaderSource = "#version 420 core\n"
-    "out vec4 FragColor;\n"
-    "in vec3 ourColor;\n"
-    "void main()\n"
-    "{\n"
-    "   FragColor = vec4(ourColor, 1.0f);\n"
-    "}\0";
+float xOffset;
+float yOffset;
 
 int main()
 {
@@ -48,7 +33,7 @@ int main()
         glfwTerminate();
         return -1;
     }
-    glfwMakeContextCurrent( window );
+    glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
 
     //loading opengl funciton pointers
@@ -61,60 +46,10 @@ int main()
     //set viewport
     glViewport(0, 0, 800, 600);
 
-    //build and compile shader program
-    std::cout << std::filesystem::current_path();
-    Shader ourShader("../../src/shaders/shader.vs", "../../src/shaders/shader.fs");
 
-    //vertex shader
-    unsigned int vertexShader;
-    vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-    glCompileShader(vertexShader);
-    //check for vertex shader compile errors
-    int succes;
-    char infoLog[512];
-    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &succes);
-    
-    if (!succes)
-    {
-        glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-        std::cout << "ERROR VERTEX SHADER COMPILATION FAILED\n" << infoLog << std::endl;
-    }
-
-    //fragment shader
-    unsigned int fragmentShader;
-    fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-    glCompileShader(fragmentShader);
-    //check for fragment shader errors
-    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &succes);
-    
-    if (!succes)
-    {
-        glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-        std::cout << "ERROR FRAGMENT SHADER COMPILATION FAILED\n" << infoLog << std::endl;
-    }
-
-    //linking shaders
-    unsigned int shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
-    //check linking errors
-    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &succes);
-
-    if (!succes)
-    {
-        glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-        std::cout << "ERROR LINKING SHADERS\n" << infoLog << std::endl;
-    }
-    //deleting original shaders, no longer needed
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
-    
     //set up vertex data, buffers, and config vertex attr.
     //single triangle
-    float vertices[] = {
+    float triagnle_vertices[] = {
         -0.5f, -0.5f, 0.0f, //left
         0.5f, -0.5f, 0.0f,  //right
         0.0f, 0.5f, 0.0f    //top
@@ -163,6 +98,11 @@ int main()
     //only drawing lines, so triangles can be differentiated.
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
+    //build and compile shader program
+    Shader ourShader("../../src/shaders/pos_color_sh.vs", "../../src/shaders/sh.fs");
+
+    xOffset = 0.0f;
+
     //render loop
     while (!glfwWindowShouldClose(window))
     {
@@ -171,12 +111,14 @@ int main()
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        glUseProgram(shaderProgram);
-
+        ourShader.use();
+        ourShader.setFloat("xOffset", xOffset);
+        ourShader.setFloat("yOffset", yOffset);
         //render rectangle
         glBindVertexArray(VAO);
+
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-        
+
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
@@ -203,4 +145,16 @@ void processInput(GLFWwindow *window)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) 
         glfwSetWindowShouldClose(window, true);
+
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+        xOffset -= 0.01f;  
+
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+        xOffset += 0.01f;  
+
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+        yOffset += 0.01f;  
+
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+        yOffset -= 0.01f;  
 }
