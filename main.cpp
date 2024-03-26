@@ -62,6 +62,8 @@ int main()
 
     //build and compile shader program
 
+    Shader ourShader("src/shaders/shader.vs", "src/shaders/shader.fs");
+
     //vertex shader
     unsigned int vertexShader;
     vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -160,7 +162,6 @@ int main()
     //only drawing lines, so triangles can be differentiated.
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-    Shader ourShader("src/shaders/shader.vs", "src/shaders/shader.fs");
     //render loop
     while (!glfwWindowShouldClose(window))
     {
