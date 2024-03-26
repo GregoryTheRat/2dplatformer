@@ -1,4 +1,5 @@
 #include <iostream>
+#include <filesystem>
 #include <math.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -61,8 +62,8 @@ int main()
     glViewport(0, 0, 800, 600);
 
     //build and compile shader program
-
-    Shader ourShader("src/shaders/shader.vs", "src/shaders/shader.fs");
+    std::cout << std::filesystem::current_path();
+    Shader ourShader("../../src/shaders/shader.vs", "../../src/shaders/shader.fs");
 
     //vertex shader
     unsigned int vertexShader;
