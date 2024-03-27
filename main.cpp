@@ -122,7 +122,7 @@ int main()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);   
     //img loading
     int width, height, nrChannels;
-    unsigned char *data = stbi_load("../../assets/img/continer.png", &width, &height, &nrChannels, 0);
+    unsigned char *data = stbi_load("../../assets/img/container.png", &width, &height, &nrChannels, 0);
     if (data)
     {
         //generating texture
