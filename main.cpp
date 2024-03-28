@@ -1,10 +1,17 @@
 #include <iostream>
 #include <filesystem>
 #include <math.h>
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+
 #include <shader.h>
+
 #include <stb_image.h>
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
@@ -104,7 +111,7 @@ int main()
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     //build and compile shader program
-    Shader ourShader("../../src/shaders/pos_color_tex_sh.vs", "../../src/shaders/tex_sh.fs");
+    Shader ourShader("../../src/shaders/trans_color_tex_sh.vs", "../../src/shaders/tex_sh.fs");
 
     //TODO: create class that loads textures
     //TEXTURE SETUP
@@ -115,14 +122,15 @@ int main()
     //boder color
     float borderColor[] = {1.0f, 1.0f, 0.0f, 1.0f};
     //set texutre wrapping/filtering options
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);	
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-    glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    //glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);   
     //img loading
     int width, height, nrChannels;
-    unsigned char *data = stbi_load("../../assets/img/container.png", &width, &height, &nrChannels, 0);
+    stbi_set_flip_vertically_on_load(true);  
+    unsigned char *data = stbi_load("../../assets/img/pepe.png", &width, &height, &nrChannels, 3);
     if (data)
     {
         //generating texture
@@ -139,6 +147,9 @@ int main()
     //TEXTURE SETUP DONE
     //----------------------
 
+    ourShader.use();
+    unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
+
     //render loop
     while (!glfwWindowShouldClose(window))
     {
@@ -147,9 +158,10 @@ int main()
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        ourShader.use();
-        ourShader.setFloat("xOffset", xOffset);
-        ourShader.setFloat("yOffset", yOffset);
+        glm::mat4 trans = glm::mat4(1.0f);
+        trans = glm::translate(trans, glm::vec3(xOffset, yOffset, 0.0f));
+        trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
+        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans)); 
 
         //bind Texture
         glBindTexture(GL_TEXTURE_2D, texture);

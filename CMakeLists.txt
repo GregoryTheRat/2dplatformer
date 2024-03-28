@@ -12,7 +12,8 @@ target_include_directories(${PROJECT_NAME}
     PUBLIC external/glfw/include
     PUBLIC external/glad/include
     PUBLIC src/shader_loader
-    PUBLIC src/img_loader)
+    PUBLIC src/img_loader
+    PUBLIC external/glm)
 
 target_link_directories(${PROJECT_NAME}
     PRIVATE external/glfw/src
