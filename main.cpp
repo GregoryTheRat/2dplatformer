@@ -22,6 +22,7 @@ const unsigned int SCR_HEIGHT = 600;
 
 float xOffset;
 float yOffset;
+float zRotation;
 
 int main()
 {
@@ -160,7 +161,7 @@ int main()
 
         glm::mat4 trans = glm::mat4(1.0f);
         trans = glm::translate(trans, glm::vec3(xOffset, yOffset, 0.0f));
-        trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
+        trans = glm::rotate(trans, glm::radians(zRotation), glm::vec3(0.0f, 0.0f, 1.0f));
         glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans)); 
 
         //bind Texture
@@ -198,14 +199,28 @@ void processInput(GLFWwindow *window)
         glfwSetWindowShouldClose(window, true);
 
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        xOffset -= 0.01f;  
+        xOffset -= 0.02f;  
 
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        xOffset += 0.01f;  
+        xOffset += 0.02f;  
 
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        yOffset += 0.01f;  
+        yOffset += 0.02f;  
 
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        yOffset -= 0.01f;  
+        yOffset -= 0.02f;  
+
+    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+    {
+        if (zRotation == 360.0f)
+            zRotation = 0.0f;
+        zRotation += 3.0f;
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+    {
+        if (zRotation == 0.0f)
+            zRotation = 360.0f;
+        zRotation -= 3.0f;
+    }
 }
