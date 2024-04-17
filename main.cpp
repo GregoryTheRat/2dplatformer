@@ -66,11 +66,11 @@ int main()
 
     //rectangle made of two triangles (4 vertices)
     float rectangle_vertices[] = {
-        //pos               //colors            //texture coords
-        0.5f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   1.0f, 1.0f,  //top right
-        0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   1.0f, 0.0f,  //bottom right
-       -0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f,   0.0f, 0.0f,  //bottom left
-       -0.5f,  0.5f, 0.0f,  0.5f, 0.5f, 0.0f,    0.0f, 1.0f  //top left 
+        //pos                //texture coords
+        0.5f,  0.5f, 0.0f,     1.0f, 1.0f,  //top right
+        0.5f, -0.5f, 0.0f,     1.0f, 0.0f,  //bottom right
+       -0.5f, -0.5f, 0.0f,     0.0f, 0.0f,  //bottom left
+       -0.5f,  0.5f, 0.0f,     0.0f, 1.0f  //top left 
     };
     //indices for the rectangle (which vertices to use in what order)
     unsigned int indices[] = {
@@ -94,14 +94,11 @@ int main()
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
     //setting vertex attr pointer for coords
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
-    //setting vertex attr pointer for colors
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
     //setting vertex attr pointer for texture coords
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
 
     //unbinding VBO, EBO and VAO.  not always necessary
     glBindVertexArray(0);
@@ -112,7 +109,7 @@ int main()
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     //build and compile shader program
-    Shader ourShader("../../src/shaders/trans_color_tex_sh.vs", "../../src/shaders/tex_sh.fs");
+    Shader ourShader("../../src/shaders/trans_tex.vs", "../../src/shaders/tex.fs");
 
     //TODO: create class that loads textures
     //TEXTURE SETUP
