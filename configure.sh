@@ -1,1 +1,1 @@
-cmake -D GLFW_BUILD_DOCS=OFF -S . -B out/build
+cmake -D GLFW_BUILD_DOCS=OFF -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -S . -B out/build
