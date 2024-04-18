@@ -53,7 +53,7 @@ int main()
     }
     
     //set viewport
-    glViewport(0, 0, 800, 600);
+    glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
 
 
     //set up vertex data, buffers, and config vertex attr.
@@ -109,7 +109,7 @@ int main()
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     //build and compile shader program
-    Shader ourShader("../../src/shaders/trans_tex.vs", "../../src/shaders/tex.fs");
+    Shader ourShader("../../src/shaders/space_matrix_tex.vs", "../../src/shaders/tex.fs");
 
     //TODO: create class that loads textures
     //TEXTURE SETUP
@@ -123,7 +123,7 @@ int main()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     //glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);   
     //img loading
     int width, height, nrChannels;
@@ -145,26 +145,40 @@ int main()
     //TEXTURE SETUP DONE
     //----------------------
 
-    ourShader.use();
-    unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
+    glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+    unsigned int projectionLocation = glGetUniformLocation(ourShader.ID, "projection");
 
     //render loop
     while (!glfwWindowShouldClose(window))
     {
         processInput(window);
 
+        //clear 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-
-        glm::mat4 trans = glm::mat4(1.0f);
-        trans = glm::translate(trans, glm::vec3(xOffset, yOffset, 0.0f));
-        trans = glm::rotate(trans, glm::radians(zRotation), glm::vec3(0.0f, 0.0f, 1.0f));
-        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans)); 
 
         //bind Texture
         glBindTexture(GL_TEXTURE_2D, texture);
         //bind VAO
         glBindVertexArray(VAO);
+
+        ourShader.use();
+
+        glm::mat4 model = glm::mat4(1.0f);
+        glm::mat4 view = glm::mat4(1.0f);
+        //getting uniform locations in the shader
+        unsigned int modelLocation = glGetUniformLocation(ourShader.ID, "model");
+        unsigned int viewLocation = glGetUniformLocation(ourShader.ID, "view");
+        //updating model matrix
+        model = glm::translate(model, glm::vec3(xOffset, yOffset, 0.0f));
+        model = glm::rotate(model, glm::radians(zRotation), glm::vec3(0.0f, 0.0f, 1.0f));
+        //updating view matrix
+        view = glm::translate(view, glm::vec3(-xOffset, -yOffset, -3.0f));
+        //projection matrix 
+        //passing matrices to shader
+        glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
+        glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));
+        glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(projection));
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
@@ -180,6 +194,14 @@ int main()
     {
         std::cout << description << std::endl;
     }
+    return 0;
+
+    //de-allocate resources
+    glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &VBO);
+    glDeleteBuffers(1, &VBO);
+
+    glfwTerminate();
     return 0;
 }
 
