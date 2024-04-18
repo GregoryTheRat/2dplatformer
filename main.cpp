@@ -65,12 +65,13 @@ int main()
     };
 
     //rectangle made of two triangles (4 vertices)
+    //for pepe character
     float rectangle_vertices[] = {
         //pos                //texture coords
         0.5f,  0.5f, 0.0f,     1.0f, 1.0f,  //top right
         0.5f, -0.5f, 0.0f,     1.0f, 0.0f,  //bottom right
        -0.5f, -0.5f, 0.0f,     0.0f, 0.0f,  //bottom left
-       -0.5f,  0.5f, 0.0f,     0.0f, 1.0f  //top left 
+       -0.5f,  0.5f, 0.0f,     0.0f, 1.0f   //top left 
     };
     //indices for the rectangle (which vertices to use in what order)
     unsigned int indices[] = {
@@ -78,7 +79,26 @@ int main()
         1, 2, 3
     };
 
-    //VBO, VAO
+    //STATIC OBJECT RECTANGLES
+    float static_rectangle_vertices[] = {
+        //pos                 //color  
+        0.7f,  0.3f, 0.0f,    0.0f, 1.0f, 0.0f,  //top right 
+        0.7f, -0.3f, 0.0f,    0.0f, 1.0f, 0.0f,  //bottom rigth
+       -0.7f, -0.3f, 0.0f,    0.0f, 1.0f, 0.0f,  //bottom left
+       -0.7f,  0.3f, 0.0f,    0.0f, 1.0f, 0.0f,  //top left
+    };
+    //indices are the same 
+
+    //positions for static objects
+    glm::vec3 staticRectPos[] = {
+        glm::vec3(0.0f, 5.0f, 0.0f),
+        glm::vec3(-5.0f, 5.0f, 0.0f),
+        glm::vec3(-6.0f, -5.0f, 0.0f),
+        glm::vec3(5.0f, 0.0f, 0.0f),
+        glm::vec3(5.0f, 5.0f, 0.0f)
+    };
+
+    //VBO, EBO, VAO for character
     unsigned int VBO, EBO, VAO;
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
@@ -102,14 +122,37 @@ int main()
 
     //unbinding VBO, EBO and VAO.  not always necessary
     glBindVertexArray(0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
+    //VBO, EBO, VAO for static objects
+    unsigned int sVBO, sVAO;
+    glGenVertexArrays(1, &sVAO);
+    glGenBuffers(1, &sVBO);
+
+    glBindVertexArray(sVAO); 
+    glBindBuffer(GL_ARRAY_BUFFER, sVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(static_rectangle_vertices), static_rectangle_vertices, GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
+    glBindVertexArray(0); 
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    
     //only drawing lines, so triangles can be differentiated.
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-    //build and compile shader program
-    Shader ourShader("../../src/shaders/space_matrix_tex.vs", "../../src/shaders/tex.fs");
+    //build and compile shader programs
+    Shader characterShader("../../src/shaders/space_matrix_tex.vs", "../../src/shaders/tex.fs");
+    Shader staticObjectShader("../../src/shaders/space_matrix_color.vs", "../../src/shaders/color.fs");
+
 
     //TODO: create class that loads textures
     //TEXTURE SETUP
@@ -117,12 +160,9 @@ int main()
     unsigned int texture;
     glGenTextures(1, &texture);
     glBindTexture(GL_TEXTURE_2D, texture);
-    //boder color
-    float borderColor[] = {1.0f, 1.0f, 0.0f, 1.0f};
     //set texutre wrapping/filtering options
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    //glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);   
     //img loading
@@ -145,8 +185,8 @@ int main()
     //TEXTURE SETUP DONE
     //----------------------
 
+    //setting projection matrix
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-    unsigned int projectionLocation = glGetUniformLocation(ourShader.ID, "projection");
 
     //render loop
     while (!glfwWindowShouldClose(window))
@@ -157,30 +197,44 @@ int main()
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        /*
         //bind Texture
         glBindTexture(GL_TEXTURE_2D, texture);
         //bind VAO
         glBindVertexArray(VAO);
 
-        ourShader.use();
+        characterShader.use();
 
         glm::mat4 model = glm::mat4(1.0f);
         glm::mat4 view = glm::mat4(1.0f);
-        //getting uniform locations in the shader
-        unsigned int modelLocation = glGetUniformLocation(ourShader.ID, "model");
-        unsigned int viewLocation = glGetUniformLocation(ourShader.ID, "view");
         //updating model matrix
         model = glm::translate(model, glm::vec3(xOffset, yOffset, 0.0f));
         model = glm::rotate(model, glm::radians(zRotation), glm::vec3(0.0f, 0.0f, 1.0f));
         //updating view matrix
         view = glm::translate(view, glm::vec3(-xOffset, -yOffset, -3.0f));
-        //projection matrix 
         //passing matrices to shader
-        glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
-        glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));
-        glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(projection));
+        characterShader.setMat4("model", model);
+        characterShader.setMat4("view", view);
+        characterShader.setMat4("projection", projection);
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        */
+
+        //drawing static objects
+        glBindVertexArray(sVAO);
+        staticObjectShader.use();
+        for(unsigned int i = 0; i < 5, i++;)
+        {
+            glm::mat4 model = glm::mat4(1.0f);
+            glm::mat4 view = glm::mat4(1.0f);
+            model = glm::translate(model, staticRectPos[i]);
+            view = glm::translate(view, glm::vec3(-xOffset, -yOffset, -3.0f)); 
+            staticObjectShader.setMat4("model", model);
+            staticObjectShader.setMat4("view", view);
+            staticObjectShader.setMat4("projection", projection);
+
+            glDrawArrays(GL_TRIANGLES, 0, 30);
+        }
 
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -198,8 +252,10 @@ int main()
 
     //de-allocate resources
     glDeleteVertexArrays(1, &VAO);
+    glDeleteVertexArrays(1, &sVAO);
     glDeleteBuffers(1, &VBO);
-    glDeleteBuffers(1, &VBO);
+    glDeleteBuffers(1, &sVBO);
+    glDeleteBuffers(1, &EBO);
 
     glfwTerminate();
     return 0;
