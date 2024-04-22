@@ -17,8 +17,11 @@ void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
 
 //settings
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
+const unsigned int SCR_WIDTH = 1000;
+const unsigned int SCR_HEIGHT = 800;
+
+float deltaTime = 0.0f;
+float lastFrame = 0.0f;
 
 float xOffset;
 float yOffset;
@@ -91,11 +94,11 @@ int main()
 
     //positions for static objects
     glm::vec3 staticRectPos[] = {
-        glm::vec3(0.0f, 5.0f, 0.0f),
-        glm::vec3(-5.0f, 5.0f, 0.0f),
-        glm::vec3(-6.0f, -5.0f, 0.0f),
-        glm::vec3(5.0f, 0.0f, 0.0f),
-        glm::vec3(5.0f, 5.0f, 0.0f)
+        glm::vec3(-1.5f, 1.5f, 0.0f),
+        glm::vec3(0.0f, 1.5f, 0.0f),
+        glm::vec3(1.5f, 1.5f, 0.0f),
+        glm::vec3(-1.5f, -1.5f, 0.0f),
+        glm::vec3(0.0f, -1.5f, 0.0f)
     };
 
     //VBO, EBO, VAO for character
@@ -125,34 +128,8 @@ int main()
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-    //VBO, EBO, VAO for static objects
-    unsigned int sVBO, sVAO;
-    glGenVertexArrays(1, &sVAO);
-    glGenBuffers(1, &sVBO);
-
-    glBindVertexArray(sVAO); 
-    glBindBuffer(GL_ARRAY_BUFFER, sVBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(static_rectangle_vertices), static_rectangle_vertices, GL_STATIC_DRAW);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
-
-    glBindVertexArray(0); 
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    
-    //only drawing lines, so triangles can be differentiated.
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
     //build and compile shader programs
     Shader characterShader("../../src/shaders/space_matrix_tex.vs", "../../src/shaders/tex.fs");
-    Shader staticObjectShader("../../src/shaders/space_matrix_color.vs", "../../src/shaders/color.fs");
-
 
     //TODO: create class that loads textures
     //TEXTURE SETUP
@@ -188,16 +165,23 @@ int main()
     //setting projection matrix
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 
+    //only drawing lines, so triangles can be differentiated.
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
     //render loop
     while (!glfwWindowShouldClose(window))
     {
+        //calc delta time
+        float currentFrame = static_cast<float>(glfwGetTime());
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+
         processInput(window);
 
         //clear 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        /*
         //bind Texture
         glBindTexture(GL_TEXTURE_2D, texture);
         //bind VAO
@@ -211,29 +195,24 @@ int main()
         model = glm::translate(model, glm::vec3(xOffset, yOffset, 0.0f));
         model = glm::rotate(model, glm::radians(zRotation), glm::vec3(0.0f, 0.0f, 1.0f));
         //updating view matrix
-        view = glm::translate(view, glm::vec3(-xOffset, -yOffset, -3.0f));
+        view = glm::translate(view, glm::vec3(-xOffset, -yOffset, -5.0f));
+        //view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
         //passing matrices to shader
         characterShader.setMat4("model", model);
         characterShader.setMat4("view", view);
         characterShader.setMat4("projection", projection);
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-        */
 
-        //drawing static objects
-        glBindVertexArray(sVAO);
-        staticObjectShader.use();
-        for(unsigned int i = 0; i < 5, i++;)
+        for(unsigned int i = 0; i < 5; i++)
         {
             glm::mat4 model = glm::mat4(1.0f);
-            glm::mat4 view = glm::mat4(1.0f);
             model = glm::translate(model, staticRectPos[i]);
-            view = glm::translate(view, glm::vec3(-xOffset, -yOffset, -3.0f)); 
-            staticObjectShader.setMat4("model", model);
-            staticObjectShader.setMat4("view", view);
-            staticObjectShader.setMat4("projection", projection);
+            characterShader.setMat4("model", model);
+            characterShader.setMat4("view", view);
+            characterShader.setMat4("projection", projection);
 
-            glDrawArrays(GL_TRIANGLES, 0, 30);
+           glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         }
 
         glfwSwapBuffers(window);
@@ -252,9 +231,7 @@ int main()
 
     //de-allocate resources
     glDeleteVertexArrays(1, &VAO);
-    glDeleteVertexArrays(1, &sVAO);
     glDeleteBuffers(1, &VBO);
-    glDeleteBuffers(1, &sVBO);
     glDeleteBuffers(1, &EBO);
 
     glfwTerminate();
@@ -270,32 +247,33 @@ void framebufferSizeCallback(GLFWwindow* window, int width, int height)
 //process input, called each frame 
 void processInput(GLFWwindow *window)
 {
+    float characterSpeed = 2.5 * deltaTime;
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) 
         glfwSetWindowShouldClose(window, true);
 
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        xOffset -= 0.02f;  
+        xOffset -= 0.80f * characterSpeed;  
 
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        xOffset += 0.02f;  
+        xOffset += 0.80f * characterSpeed;  
 
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        yOffset += 0.02f;  
+        yOffset += 0.80f * characterSpeed;  
 
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        yOffset -= 0.02f;  
+        yOffset -= 0.80f * characterSpeed;  
 
     if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
     {
         if (zRotation == 360.0f)
             zRotation = 0.0f;
-        zRotation += 3.0f;
+        zRotation -= 75.0f * characterSpeed;
     }
 
     if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
     {
         if (zRotation == 0.0f)
             zRotation = 360.0f;
-        zRotation -= 3.0f;
+        zRotation += 75.0f * characterSpeed;
     }
 }
