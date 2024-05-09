@@ -70,27 +70,17 @@ int main()
     //rectangle made of two triangles (4 vertices)
     //for pepe character
     float rectangle_vertices[] = {
-        //pos                //texture coords
-        0.5f,  0.5f, 0.0f,     1.0f, 1.0f,  //top right
-        0.5f, -0.5f, 0.0f,     1.0f, 0.0f,  //bottom right
-       -0.5f, -0.5f, 0.0f,     0.0f, 0.0f,  //bottom left
-       -0.5f,  0.5f, 0.0f,     0.0f, 1.0f   //top left 
+        //pos                
+        0.5f,  0.5f, 0.0f,   
+        0.5f, -0.5f, 0.0f,   
+       -0.5f, -0.5f, 0.0f,   
+       -0.5f,  0.5f, 0.0f      
     };
     //indices for the rectangle (which vertices to use in what order)
     unsigned int indices[] = {
         0, 1, 3,
         1, 2, 3
     };
-
-    //STATIC OBJECT RECTANGLES
-    float static_rectangle_vertices[] = {
-        //pos                 //color  
-        0.7f,  0.3f, 0.0f,    0.0f, 1.0f, 0.0f,  //top right 
-        0.7f, -0.3f, 0.0f,    0.0f, 1.0f, 0.0f,  //bottom rigth
-       -0.7f, -0.3f, 0.0f,    0.0f, 1.0f, 0.0f,  //bottom left
-       -0.7f,  0.3f, 0.0f,    0.0f, 1.0f, 0.0f,  //top left
-    };
-    //indices are the same 
 
     //positions for static objects
     glm::vec3 staticRectPos[] = {
@@ -117,19 +107,27 @@ int main()
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
     //setting vertex attr pointer for coords
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
-    //setting vertex attr pointer for texture coords
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
 
     //unbinding VBO, EBO and VAO.  not always necessary
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
+    //light VAO
+    unsigned int lightVAO;
+    glGenVertexArrays(1, &lightVAO);
+    glBindVertexArray(lightVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
     //build and compile shader programs
-    Shader characterShader("../../src/shaders/space_matrix_tex.vs", "../../src/shaders/tex.fs");
+    Shader lightCubeShader("../../src/shaders/space_matrix.vs", "../../src/shaders/light_cube.fs");
+    Shader lightingShader("../../src/shaders/space_matrix.vs", "../../src/shaders/ocolor_lcolor.fs");
+
 
     //TODO: create class that loads textures
     //TEXTURE SETUP
@@ -162,6 +160,15 @@ int main()
     //TEXTURE SETUP DONE
     //----------------------
 
+    //light and color
+    //----------------------
+    glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
+    glm::vec3 toyColor(1.0f, 0.5f, 0.31f);
+
+    glm::vec3 lightPos(1.0f, 1.0f, -0.5f);
+    //----------------------
+
+
     //setting projection matrix
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 
@@ -182,38 +189,43 @@ int main()
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        //CHARACTER
+        //----------------
+
         //bind Texture
         glBindTexture(GL_TEXTURE_2D, texture);
         //bind VAO
         glBindVertexArray(VAO);
 
-        characterShader.use();
+        lightingShader.use();
+        lightingShader.setVec3("objectColor", toyColor);
+        lightingShader.setVec3("lightColor", lightColor);
 
+        //space matrices
         glm::mat4 model = glm::mat4(1.0f);
         glm::mat4 view = glm::mat4(1.0f);
-        //updating model matrix
         model = glm::translate(model, glm::vec3(xOffset, yOffset, 0.0f));
         model = glm::rotate(model, glm::radians(zRotation), glm::vec3(0.0f, 0.0f, 1.0f));
-        //updating view matrix
         view = glm::translate(view, glm::vec3(-xOffset, -yOffset, -5.0f));
-        //view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
         //passing matrices to shader
-        characterShader.setMat4("model", model);
-        characterShader.setMat4("view", view);
-        characterShader.setMat4("projection", projection);
+        lightingShader.setMat4("model", model);
+        lightingShader.setMat4("view", view);
+        lightingShader.setMat4("projection", projection);
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-        for(unsigned int i = 0; i < 5; i++)
-        {
-            glm::mat4 model = glm::mat4(1.0f);
-            model = glm::translate(model, staticRectPos[i]);
-            characterShader.setMat4("model", model);
-            characterShader.setMat4("view", view);
-            characterShader.setMat4("projection", projection);
+        //lightCube
+        //--------------
+        lightCubeShader.use();
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, lightPos);
+        model = glm::scale(model, glm::vec3(0.3f));
 
-           glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-        }
+        lightCubeShader.setMat4("model", model);
+        lightCubeShader.setMat4("view", view);
+        lightCubeShader.setMat4("projection", projection);
+
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
