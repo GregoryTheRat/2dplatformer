@@ -61,11 +61,11 @@ int main()
     //rectangle made of two triangles (4 vertices)
     //for pepe character
     float rectangle_vertices[] = {
-        //pos                
-        0.5f,  0.5f, 0.0f,   
-        0.5f, -0.5f, 0.0f,   
-       -0.5f, -0.5f, 0.0f,   
-       -0.5f,  0.5f, 0.0f      
+        //pos                //normal vector 
+        0.5f,  0.5f, 0.0f,   0.0f, 0.0f, -1.0f,  
+        0.5f, -0.5f, 0.0f,   0.0f, 0.0f, -1.0f,
+       -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, -1.0f,
+       -0.5f,  0.5f, 0.0f,   0.0f, 0.0f, -1.0f 
     };
     //indices for the rectangle (which vertices to use in what order)
     unsigned int indices[] = {
@@ -89,21 +89,20 @@ int main()
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
     //setting vertex attr pointer for coords
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
-
-    //unbinding VBO, EBO and VAO.  not always necessary
-    glBindVertexArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    //normal vectors
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
 
     //light VAO
-    unsigned int lightVAO;
-    glGenVertexArrays(1, &lightVAO);
-    glBindVertexArray(lightVAO);
+    unsigned int lightCubeVAO;
+    glGenVertexArrays(1, &lightCubeVAO);
+    glBindVertexArray(lightCubeVAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
     //build and compile shader programs
@@ -182,6 +181,7 @@ int main()
         lightingShader.use();
         lightingShader.setVec3("objectColor", toyColor);
         lightingShader.setVec3("lightColor", lightColor);
+        lightingShader.setVec3("lightPos", lightPos);
 
         //space matrices
         glm::mat4 model = glm::mat4(1.0f);
@@ -198,10 +198,11 @@ int main()
 
         //lightCube
         //--------------
+        glBindVertexArray(lightCubeVAO);
         lightCubeShader.use();
         model = glm::mat4(1.0f);
         model = glm::translate(model, lightPos);
-        model = glm::scale(model, glm::vec3(0.3f));
+        model = glm::scale(model, glm::vec3(0.1f));
 
         lightCubeShader.setMat4("model", model);
         lightCubeShader.setMat4("view", view);
