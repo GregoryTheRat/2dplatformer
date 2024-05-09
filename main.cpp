@@ -58,15 +58,6 @@ int main()
     //set viewport
     glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
 
-
-    //set up vertex data, buffers, and config vertex attr.
-    //single triangle
-    float triagnle_vertices[] = {
-        -0.5f, -0.5f, 0.0f, //left
-        0.5f, -0.5f, 0.0f,  //right
-        0.0f, 0.5f, 0.0f    //top
-    };
-
     //rectangle made of two triangles (4 vertices)
     //for pepe character
     float rectangle_vertices[] = {
@@ -80,15 +71,6 @@ int main()
     unsigned int indices[] = {
         0, 1, 3,
         1, 2, 3
-    };
-
-    //positions for static objects
-    glm::vec3 staticRectPos[] = {
-        glm::vec3(-1.5f, 1.5f, 0.0f),
-        glm::vec3(0.0f, 1.5f, 0.0f),
-        glm::vec3(1.5f, 1.5f, 0.0f),
-        glm::vec3(-1.5f, -1.5f, 0.0f),
-        glm::vec3(0.0f, -1.5f, 0.0f)
     };
 
     //VBO, EBO, VAO for character
