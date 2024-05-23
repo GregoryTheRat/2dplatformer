@@ -241,8 +241,8 @@ int main()
         glm::mat4 view = glm::mat4(1.0f);
         playerModel = glm::translate(playerModel, glm::vec3(xOffset, yOffset, 0.0f));
         playerModel = glm::rotate(playerModel, glm::radians(zRotation), glm::vec3(0.0f, 0.0f, 1.0f));
-        playerModel = glm::scale(playerModel, glm::vec3(0.5f, 0.5f, 0.0f));
-        view = glm::translate(view, glm::vec3(-xOffset, -yOffset, -5.0f));
+        playerModel = glm::scale(playerModel, glm::vec3(0.2f, 0.2f, 0.0f));
+        view = glm::translate(view, glm::vec3(-xOffset, 0.0f, -5.0f));
         //passing matrices to shader
         lightingShader.setMat4("model", playerModel);
         lightingShader.setMat4("view", view);
