@@ -14,18 +14,19 @@ void Shader::Compile(const char *vertexSource, const char *fragmentSource, const
     sVertex = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(sVertex, 1, &vertexSource, NULL);
     glCompileShader(sVertex);
-    checkCompilerErrors(sVertex, "VERTEX");
+    checkCompileErrors(sVertex, "VERTEX");
 
     sFragment = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(sFragment, 1, &fragmentSource, NULL);
-    checkCompilerErrors(sFragment, "FRAGMENT");
+    glCompileShader(sFragment);
+    checkCompileErrors(sFragment, "FRAGMENT");
 
     if (geometrySource != nullptr)
     {
         gShader = glCreateShader(GL_GEOMETRY_SHADER);
         glShaderSource(gShader, 1, &geometrySource, NULL);
         glCompileShader(gShader);
-        checkCompilerErrors(gShader, "GEOMETRY");
+        checkCompileErrors(gShader, "GEOMETRY");
     }
 
     this->ID = glCreateProgram();
@@ -35,13 +36,14 @@ void Shader::Compile(const char *vertexSource, const char *fragmentSource, const
         glAttachShader(this->ID, gShader);
     glLinkProgram(this->ID);
 
-    checkCompilerErrors(this->ID, "PROGRAM");
+    checkCompileErrors(this->ID, "PROGRAM");
 
     glDeleteShader(sVertex);
     glDeleteShader(sFragment);
     if (geometrySource != nullptr)
         glDeleteShader(gShader);
 }
+
 
 void Shader::SetFloat(const char *name, float value, bool useShader)
 {
@@ -96,4 +98,32 @@ void Shader::SetMatrix4(const char *name, const glm::mat4 &matrix, bool useShade
     if (useShader)
         this->Use();
     glUniformMatrix4fv(glGetUniformLocation(this->ID, name), 1, false, glm::value_ptr(matrix));
+}
+
+void Shader::checkCompileErrors(unsigned int object, std::string type)
+{
+    int success;
+    char infoLog[1024];
+    if (type != "PROGRAM")
+    {
+        glGetShaderiv(object, GL_COMPILE_STATUS, &success);
+        if (!success)
+        {
+            glGetShaderInfoLog(object, 1024, NULL, infoLog);
+            std::cout << "| ERROR::SHADER: Compile-time error: Type: " << type << "\n"
+                << infoLog << "\n -- --------------------------------------------------- -- "
+                << std::endl;
+        }
+    }
+    else
+    {
+        glGetProgramiv(object, GL_LINK_STATUS, &success);
+        if (!success)
+        {
+            glGetProgramInfoLog(object, 1024, NULL, infoLog);
+            std::cout << "| ERROR::Shader: Link-time error: Type: " << type << "\n"
+                << infoLog << "\n -- --------------------------------------------------- -- "
+                << std::endl;
+        }
+    }
 }

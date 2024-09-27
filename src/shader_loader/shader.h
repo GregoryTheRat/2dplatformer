@@ -1,6 +1,8 @@
 #ifndef SHADER_H
 #define SHADER_H
 
+#include <string>
+
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -10,12 +12,12 @@ class Shader
 public:
     unsigned int ID;
     //constructor
-    Shader();
+    Shader() { };
     //set current shader as active
     Shader &Use();
     //compile shader from given source code
     void Compile(const char *vertexSource, const char *fragmentSource, const char *geometrySource = nullptr);
-    //utility
+    // utility
     void SetFloat       (const char *name, float value, bool useShader = false);
     void SetInteger     (const char *name, int value, bool useShader = false);
     void SetVector2f    (const char *name, float x, float y, bool useShader = false);
@@ -28,7 +30,7 @@ public:
 
 private:
     //check if compilation or linking failed, if so then print the errors
-    void checkCompilerErrors(unsigned int object, std::string type);
+    void checkCompileErrors(unsigned int object, std::string type);
 };
 
 #endif

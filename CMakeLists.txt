@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.22.1)
 
 project(2DPLATFORMER)
 
-set(SOURCES src/resource_manager/resource_manager.h src/resource_manager/resource_manager.cpp src/img_loader/stb_image.h src/img_loader/stb_image.cpp 
-        src/shader_loader/shader.h src/shader_loader/shader.cpp)
+set(SOURCES src/shader_loader/shader.h src/shader_loader/shader.cpp src/resource_manager/resource_manager.h src/resource_manager/resource_manager.cpp src/img_loader/stb_image.h src/img_loader/stb_image.cpp 
+     src/texture_loader/texture.h src/texture_loader/texture.cpp )
 add_executable(${PROJECT_NAME} main.cpp ${SOURCES})
 
 add_subdirectory(external/glfw)

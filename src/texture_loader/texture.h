@@ -6,6 +6,7 @@
 class Texture2D
 {
 public:
+    Texture2D();
     unsigned int ID;
     unsigned int Width, Height;
     unsigned int Internal_Format; //format of texture
@@ -16,7 +17,6 @@ public:
     unsigned int Filter_Min;
     unsigned int Filter_Max;
 
-    Texture2D();
     void Generate(unsigned int width, unsigned int height, unsigned char *data);
     void Bind() const;
 };
