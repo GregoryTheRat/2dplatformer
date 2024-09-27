@@ -5,7 +5,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include <shader.h>
+#include <resource_manager.h>
 
 #include <stb_image.h>
 
@@ -129,9 +129,12 @@ int main()
     glEnableVertexAttribArray(1);
 
     //build and compile shader programs
-    Shader lightCubeShader("../../src/shaders/space_matrix.vs", "../../src/shaders/light_cube.fs");
-    Shader lightingShader("../../src/shaders/space_matrix.vs", "../../src/shaders/ocolor_lcolor.fs");
-    Shader bgShader("../../src/shaders/space_matrix_tex.vs", "../../src/shaders/tex.fs");
+    Shader lightCubeShader = ResourceManager::LoadShader("../../src/shaders/space_matrix.vs", "../../src/shaders/light_cube.fs", nullptr, "lightCubeShader");
+    Shader lightingShader = ResourceManager::LoadShader("../../src/shaders/space_matrix.vs", "../../src/shaders/ocolor_lcolor.fs", nullptr, "lightingShader");
+    Shader bgShader = ResourceManager::LoadShader("../../src/shaders/space_matrix_tex.vs", "../../src/shaders/tex.fs", nullptr, "bgShader");
+    //Shader lightCubeShader("../../src/shaders/space_matrix.vs", "../../src/shaders/light_cube.fs");
+    //Shader lightingShader("../../src/shaders/space_matrix.vs", "../../src/shaders/ocolor_lcolor.fs");
+    //Shader bgShader("../../src/shaders/space_matrix_tex.vs", "../../src/shaders/tex.fs");
 
 
     //TODO: create class that loads textures
@@ -231,10 +234,16 @@ int main()
         //----------------
         glBindVertexArray(VAO);
 
+        /*
         lightingShader.use();
         lightingShader.setVec3("objectColor", toyColor);
         lightingShader.setVec3("lightColor", lightColor);
         lightingShader.setVec3("lightPos", lightPos);
+        */
+        lightingShader.Use();
+        lightingShader.SetVector3f("objectColor", toyColor);
+        lightingShader.SetVector3f("lightColor", lightColor);
+        lightingShader.SetVector3f("lightPos", lightPos);
 
         //space matrices
         glm::mat4 playerModel = glm::mat4(1.0f);
@@ -244,9 +253,14 @@ int main()
         playerModel = glm::scale(playerModel, glm::vec3(0.2f, 0.2f, 0.0f));
         view = glm::translate(view, glm::vec3(-xOffset, 0.0f, -5.0f));
         //passing matrices to shader
+        /*
         lightingShader.setMat4("model", playerModel);
         lightingShader.setMat4("view", view);
         lightingShader.setMat4("projection", projection);
+        */
+        lightingShader.SetMatrix4("model", playerModel);
+        lightingShader.SetMatrix4("view", view);
+        lightingShader.SetMatrix4("projection", projection);
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         //----------------
@@ -254,6 +268,7 @@ int main()
         //lightCube
         //--------------
         glBindVertexArray(lightCubeVAO);
+        /*
         lightCubeShader.use();
         lightCubeModel = glm::mat4(1.0f);
         lightCubeModel = glm::translate(lightCubeModel, lightPos);
@@ -262,6 +277,16 @@ int main()
         lightCubeShader.setMat4("model", lightCubeModel);
         lightCubeShader.setMat4("view", view);
         lightCubeShader.setMat4("projection", projection);
+        */
+        lightCubeModel = glm::mat4(1.0f);
+        lightCubeModel = glm::translate(lightCubeModel, lightPos);
+        lightCubeModel = glm::scale(lightCubeModel, glm::vec3(0.1f));
+
+        lightCubeShader.Use();
+        lightCubeShader.SetMatrix4("model", lightCubeModel);
+        lightCubeShader.SetMatrix4("view", view);
+        lightCubeShader.SetMatrix4("projection", projection);
+        
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
@@ -269,7 +294,8 @@ int main()
         //----------------
 
         //background setup
-        bgShader.use();
+        //bgShader.use();
+        bgShader.Use();
         glBindTexture(GL_TEXTURE_2D, bgSkyTexture);
         glBindVertexArray(bgVAO);
 
@@ -277,10 +303,14 @@ int main()
         bgModel = glm::translate(bgModel, glm::vec3(xOffset * 0.9f, 0.0f, -1.0f));
         bgModel = glm::scale(bgModel, glm::vec3(12.0f, 6.0f, 0.0f));
 
-
+        /*
         bgShader.setMat4("model", bgModel);
         bgShader.setMat4("view", view);
         bgShader.setMat4("projection", projection);
+        */
+       bgShader.SetMatrix4("model", bgModel);
+       bgShader.SetMatrix4("view", view);
+       bgShader.SetMatrix4("projection", projection);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         //clouds
@@ -289,9 +319,14 @@ int main()
         bgModel = glm::translate(bgModel, glm::vec3(xOffset * 0.5f, 0.0f, -0.9f));
         bgModel = glm::scale(bgModel, glm::vec3(22.0f, 6.0f, 0.0f));
 
+        /*
         bgShader.setMat4("model", bgModel);
         bgShader.setMat4("view", view);
         bgShader.setMat4("projection", projection);
+        */
+        bgShader.SetMatrix4("model", bgModel);
+        bgShader.SetMatrix4("view", view);
+        bgShader.SetMatrix4("projection", projection);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 
