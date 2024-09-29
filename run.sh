@@ -1,1 +1,1 @@
-cd out/build ; ./2DPLATFORMER
+cd out/build ; ./Game

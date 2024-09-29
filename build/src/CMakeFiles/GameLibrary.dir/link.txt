@@ -1,0 +1,2 @@
+/usr/bin/ar qc libGameLibrary.a CMakeFiles/GameLibrary.dir/game.cpp.o CMakeFiles/GameLibrary.dir/resource_manager.cpp.o CMakeFiles/GameLibrary.dir/shader.cpp.o CMakeFiles/GameLibrary.dir/stb_image.cpp.o CMakeFiles/GameLibrary.dir/texture.cpp.o
+/usr/bin/ranlib libGameLibrary.a

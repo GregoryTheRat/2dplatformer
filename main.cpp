@@ -129,9 +129,9 @@ int main()
     glEnableVertexAttribArray(1);
 
     //build and compile shader programs
-    Shader lightCubeShader = ResourceManager::LoadShader("../../src/shaders/space_matrix.vs", "../../src/shaders/light_cube.fs", nullptr, "lightCubeShader");
-    Shader lightingShader = ResourceManager::LoadShader("../../src/shaders/space_matrix.vs", "../../src/shaders/ocolor_lcolor.fs", nullptr, "lightingShader");
-    Shader bgShader = ResourceManager::LoadShader("../../src/shaders/space_matrix_tex.vs", "../../src/shaders/tex.fs", nullptr, "bgShader");
+    Shader lightCubeShader = ResourceManager::LoadShader("../../shaders/space_matrix.vs", "../../shaders/light_cube.fs", nullptr, "lightCubeShader");
+    Shader lightingShader = ResourceManager::LoadShader("../../shaders/space_matrix.vs", "../../shaders/ocolor_lcolor.fs", nullptr, "lightingShader");
+    Shader bgShader = ResourceManager::LoadShader("../../shaders/space_matrix_tex.vs", "../../shaders/tex.fs", nullptr, "bgShader");
     //Shader lightCubeShader("../../src/shaders/space_matrix.vs", "../../src/shaders/light_cube.fs");
     //Shader lightingShader("../../src/shaders/space_matrix.vs", "../../src/shaders/ocolor_lcolor.fs");
     //Shader bgShader("../../src/shaders/space_matrix_tex.vs", "../../src/shaders/tex.fs");
