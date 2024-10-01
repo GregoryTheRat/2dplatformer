@@ -176,7 +176,7 @@ CMakeFiles/Game.dir/all: src/CMakeFiles/GameLibrary.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Game.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ratatouille/2dplatformer/build/CMakeFiles 55
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ratatouille/2dplatformer/build/CMakeFiles 56
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Game.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/ratatouille/2dplatformer/build/CMakeFiles 0
 .PHONY : CMakeFiles/Game.dir/rule
@@ -223,7 +223,7 @@ external/glfw/CMakeFiles/uninstall.dir/clean:
 external/glfw/src/CMakeFiles/glfw.dir/all:
 	$(MAKE) $(MAKESILENT) -f external/glfw/src/CMakeFiles/glfw.dir/build.make external/glfw/src/CMakeFiles/glfw.dir/depend
 	$(MAKE) $(MAKESILENT) -f external/glfw/src/CMakeFiles/glfw.dir/build.make external/glfw/src/CMakeFiles/glfw.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ratatouille/2dplatformer/build/CMakeFiles --progress-num=11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55 "Built target glfw"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ratatouille/2dplatformer/build/CMakeFiles --progress-num=12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56 "Built target glfw"
 .PHONY : external/glfw/src/CMakeFiles/glfw.dir/all
 
 # Build rule for subdir invocation for target.
@@ -249,7 +249,7 @@ external/glfw/src/CMakeFiles/glfw.dir/clean:
 external/glfw/src/CMakeFiles/update_mappings.dir/all:
 	$(MAKE) $(MAKESILENT) -f external/glfw/src/CMakeFiles/update_mappings.dir/build.make external/glfw/src/CMakeFiles/update_mappings.dir/depend
 	$(MAKE) $(MAKESILENT) -f external/glfw/src/CMakeFiles/update_mappings.dir/build.make external/glfw/src/CMakeFiles/update_mappings.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ratatouille/2dplatformer/build/CMakeFiles --progress-num=56 "Built target update_mappings"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ratatouille/2dplatformer/build/CMakeFiles --progress-num=57 "Built target update_mappings"
 .PHONY : external/glfw/src/CMakeFiles/update_mappings.dir/all
 
 # Build rule for subdir invocation for target.
@@ -275,7 +275,7 @@ external/glfw/src/CMakeFiles/update_mappings.dir/clean:
 external/glad/CMakeFiles/glad.dir/all:
 	$(MAKE) $(MAKESILENT) -f external/glad/CMakeFiles/glad.dir/build.make external/glad/CMakeFiles/glad.dir/depend
 	$(MAKE) $(MAKESILENT) -f external/glad/CMakeFiles/glad.dir/build.make external/glad/CMakeFiles/glad.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ratatouille/2dplatformer/build/CMakeFiles --progress-num=9,10 "Built target glad"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ratatouille/2dplatformer/build/CMakeFiles --progress-num=10,11 "Built target glad"
 .PHONY : external/glad/CMakeFiles/glad.dir/all
 
 # Build rule for subdir invocation for target.
@@ -301,12 +301,12 @@ external/glad/CMakeFiles/glad.dir/clean:
 src/CMakeFiles/GameLibrary.dir/all:
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/GameLibrary.dir/build.make src/CMakeFiles/GameLibrary.dir/depend
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/GameLibrary.dir/build.make src/CMakeFiles/GameLibrary.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ratatouille/2dplatformer/build/CMakeFiles --progress-num=3,4,5,6,7,8 "Built target GameLibrary"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ratatouille/2dplatformer/build/CMakeFiles --progress-num=3,4,5,6,7,8,9 "Built target GameLibrary"
 .PHONY : src/CMakeFiles/GameLibrary.dir/all
 
 # Build rule for subdir invocation for target.
 src/CMakeFiles/GameLibrary.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ratatouille/2dplatformer/build/CMakeFiles 6
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ratatouille/2dplatformer/build/CMakeFiles 7
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/GameLibrary.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/ratatouille/2dplatformer/build/CMakeFiles 0
 .PHONY : src/CMakeFiles/GameLibrary.dir/rule

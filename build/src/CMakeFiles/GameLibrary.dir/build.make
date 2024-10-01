@@ -139,13 +139,28 @@ src/CMakeFiles/GameLibrary.dir/texture.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameLibrary.dir/texture.cpp.s"
 	cd /home/ratatouille/2dplatformer/build/src && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ratatouille/2dplatformer/src/texture.cpp -o CMakeFiles/GameLibrary.dir/texture.cpp.s
 
+src/CMakeFiles/GameLibrary.dir/sprite_renderer.cpp.o: src/CMakeFiles/GameLibrary.dir/flags.make
+src/CMakeFiles/GameLibrary.dir/sprite_renderer.cpp.o: ../src/sprite_renderer.cpp
+src/CMakeFiles/GameLibrary.dir/sprite_renderer.cpp.o: src/CMakeFiles/GameLibrary.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ratatouille/2dplatformer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object src/CMakeFiles/GameLibrary.dir/sprite_renderer.cpp.o"
+	cd /home/ratatouille/2dplatformer/build/src && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/GameLibrary.dir/sprite_renderer.cpp.o -MF CMakeFiles/GameLibrary.dir/sprite_renderer.cpp.o.d -o CMakeFiles/GameLibrary.dir/sprite_renderer.cpp.o -c /home/ratatouille/2dplatformer/src/sprite_renderer.cpp
+
+src/CMakeFiles/GameLibrary.dir/sprite_renderer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameLibrary.dir/sprite_renderer.cpp.i"
+	cd /home/ratatouille/2dplatformer/build/src && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ratatouille/2dplatformer/src/sprite_renderer.cpp > CMakeFiles/GameLibrary.dir/sprite_renderer.cpp.i
+
+src/CMakeFiles/GameLibrary.dir/sprite_renderer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameLibrary.dir/sprite_renderer.cpp.s"
+	cd /home/ratatouille/2dplatformer/build/src && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ratatouille/2dplatformer/src/sprite_renderer.cpp -o CMakeFiles/GameLibrary.dir/sprite_renderer.cpp.s
+
 # Object files for target GameLibrary
 GameLibrary_OBJECTS = \
 "CMakeFiles/GameLibrary.dir/game.cpp.o" \
 "CMakeFiles/GameLibrary.dir/resource_manager.cpp.o" \
 "CMakeFiles/GameLibrary.dir/shader.cpp.o" \
 "CMakeFiles/GameLibrary.dir/stb_image.cpp.o" \
-"CMakeFiles/GameLibrary.dir/texture.cpp.o"
+"CMakeFiles/GameLibrary.dir/texture.cpp.o" \
+"CMakeFiles/GameLibrary.dir/sprite_renderer.cpp.o"
 
 # External object files for target GameLibrary
 GameLibrary_EXTERNAL_OBJECTS =
@@ -155,9 +170,10 @@ src/libGameLibrary.a: src/CMakeFiles/GameLibrary.dir/resource_manager.cpp.o
 src/libGameLibrary.a: src/CMakeFiles/GameLibrary.dir/shader.cpp.o
 src/libGameLibrary.a: src/CMakeFiles/GameLibrary.dir/stb_image.cpp.o
 src/libGameLibrary.a: src/CMakeFiles/GameLibrary.dir/texture.cpp.o
+src/libGameLibrary.a: src/CMakeFiles/GameLibrary.dir/sprite_renderer.cpp.o
 src/libGameLibrary.a: src/CMakeFiles/GameLibrary.dir/build.make
 src/libGameLibrary.a: src/CMakeFiles/GameLibrary.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ratatouille/2dplatformer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX static library libGameLibrary.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ratatouille/2dplatformer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX static library libGameLibrary.a"
 	cd /home/ratatouille/2dplatformer/build/src && $(CMAKE_COMMAND) -P CMakeFiles/GameLibrary.dir/cmake_clean_target.cmake
 	cd /home/ratatouille/2dplatformer/build/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/GameLibrary.dir/link.txt --verbose=$(VERBOSE)
 

@@ -5,6 +5,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/GameLibrary.dir/resource_manager.cpp.o.d"
   "CMakeFiles/GameLibrary.dir/shader.cpp.o"
   "CMakeFiles/GameLibrary.dir/shader.cpp.o.d"
+  "CMakeFiles/GameLibrary.dir/sprite_renderer.cpp.o"
+  "CMakeFiles/GameLibrary.dir/sprite_renderer.cpp.o.d"
   "CMakeFiles/GameLibrary.dir/stb_image.cpp.o"
   "CMakeFiles/GameLibrary.dir/stb_image.cpp.o.d"
   "CMakeFiles/GameLibrary.dir/texture.cpp.o"

@@ -4,6 +4,7 @@ set(SOURCES
     shader.cpp
     stb_image.cpp
     texture.cpp
+    sprite_renderer.cpp
 )
 
 add_library(GameLibrary ${SOURCES})

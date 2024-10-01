@@ -247,6 +247,30 @@ shader.cpp.s:
 	cd /home/ratatouille/2dplatformer/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/GameLibrary.dir/build.make src/CMakeFiles/GameLibrary.dir/shader.cpp.s
 .PHONY : shader.cpp.s
 
+sprite_renderer.o: sprite_renderer.cpp.o
+.PHONY : sprite_renderer.o
+
+# target to build an object file
+sprite_renderer.cpp.o:
+	cd /home/ratatouille/2dplatformer/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/GameLibrary.dir/build.make src/CMakeFiles/GameLibrary.dir/sprite_renderer.cpp.o
+.PHONY : sprite_renderer.cpp.o
+
+sprite_renderer.i: sprite_renderer.cpp.i
+.PHONY : sprite_renderer.i
+
+# target to preprocess a source file
+sprite_renderer.cpp.i:
+	cd /home/ratatouille/2dplatformer/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/GameLibrary.dir/build.make src/CMakeFiles/GameLibrary.dir/sprite_renderer.cpp.i
+.PHONY : sprite_renderer.cpp.i
+
+sprite_renderer.s: sprite_renderer.cpp.s
+.PHONY : sprite_renderer.s
+
+# target to generate assembly for a file
+sprite_renderer.cpp.s:
+	cd /home/ratatouille/2dplatformer/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/GameLibrary.dir/build.make src/CMakeFiles/GameLibrary.dir/sprite_renderer.cpp.s
+.PHONY : sprite_renderer.cpp.s
+
 stb_image.o: stb_image.cpp.o
 .PHONY : stb_image.o
 
@@ -317,6 +341,9 @@ help:
 	@echo "... shader.o"
 	@echo "... shader.i"
 	@echo "... shader.s"
+	@echo "... sprite_renderer.o"
+	@echo "... sprite_renderer.i"
+	@echo "... sprite_renderer.s"
 	@echo "... stb_image.o"
 	@echo "... stb_image.i"
 	@echo "... stb_image.s"

@@ -58,7 +58,7 @@ int main()
     
     //set viewport
     glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
-
+    Platformer.Init();
     //render loop
     while (!glfwWindowShouldClose(window))
     {
