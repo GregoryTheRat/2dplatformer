@@ -26,6 +26,11 @@ void Game::Init()
 
     Renderer = new SpriteRenderer(ResourceManager::GetShader("sprite"));
     ResourceManager::LoadTexture("../../assets/img/pepe.png", true, "pepe");
+    ResourceManager::LoadTexture("../../assets/img/platforms/container.png", false, "container");
+
+    GameLevel one; one.Load("../../levels/first.txt", this->Width, this->Height / 2);
+    this->Levels.push_back(one);
+    this->Level = 0;
 }
 
 void Game::Update(float dt)
@@ -39,5 +44,10 @@ void Game::ProcessInput(float dt)
 
 void Game::Render()
 {
-    Renderer->DrawSprite(ResourceManager::GetTexture("pepe"), glm::vec2(200.0f, 200.0f), glm::vec2(300.0f, 400.0f), 45.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+    if (this->State == GAME_ACTIVE)
+    {
+        //draw background
+
+        this->Levels[this->Level].Draw(*Renderer);
+    }
 }

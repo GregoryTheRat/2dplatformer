@@ -168,5 +168,15 @@
   "directory": "/home/ratatouille/2dplatformer/build/src",
   "command": "/usr/bin/g++  -I/home/ratatouille/2dplatformer/include -I/home/ratatouille/2dplatformer/external/glad/include -g -o CMakeFiles/GameLibrary.dir/sprite_renderer.cpp.o -c /home/ratatouille/2dplatformer/src/sprite_renderer.cpp",
   "file": "/home/ratatouille/2dplatformer/src/sprite_renderer.cpp"
+},
+{
+  "directory": "/home/ratatouille/2dplatformer/build/src",
+  "command": "/usr/bin/g++  -I/home/ratatouille/2dplatformer/include -I/home/ratatouille/2dplatformer/external/glad/include -g -o CMakeFiles/GameLibrary.dir/game_object.cpp.o -c /home/ratatouille/2dplatformer/src/game_object.cpp",
+  "file": "/home/ratatouille/2dplatformer/src/game_object.cpp"
+},
+{
+  "directory": "/home/ratatouille/2dplatformer/build/src",
+  "command": "/usr/bin/g++  -I/home/ratatouille/2dplatformer/include -I/home/ratatouille/2dplatformer/external/glad/include -g -o CMakeFiles/GameLibrary.dir/game_level.cpp.o -c /home/ratatouille/2dplatformer/src/game_level.cpp",
+  "file": "/home/ratatouille/2dplatformer/src/game_level.cpp"
 }
 ]

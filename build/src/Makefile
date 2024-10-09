@@ -199,6 +199,54 @@ game.cpp.s:
 	cd /home/ratatouille/2dplatformer/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/GameLibrary.dir/build.make src/CMakeFiles/GameLibrary.dir/game.cpp.s
 .PHONY : game.cpp.s
 
+game_level.o: game_level.cpp.o
+.PHONY : game_level.o
+
+# target to build an object file
+game_level.cpp.o:
+	cd /home/ratatouille/2dplatformer/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/GameLibrary.dir/build.make src/CMakeFiles/GameLibrary.dir/game_level.cpp.o
+.PHONY : game_level.cpp.o
+
+game_level.i: game_level.cpp.i
+.PHONY : game_level.i
+
+# target to preprocess a source file
+game_level.cpp.i:
+	cd /home/ratatouille/2dplatformer/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/GameLibrary.dir/build.make src/CMakeFiles/GameLibrary.dir/game_level.cpp.i
+.PHONY : game_level.cpp.i
+
+game_level.s: game_level.cpp.s
+.PHONY : game_level.s
+
+# target to generate assembly for a file
+game_level.cpp.s:
+	cd /home/ratatouille/2dplatformer/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/GameLibrary.dir/build.make src/CMakeFiles/GameLibrary.dir/game_level.cpp.s
+.PHONY : game_level.cpp.s
+
+game_object.o: game_object.cpp.o
+.PHONY : game_object.o
+
+# target to build an object file
+game_object.cpp.o:
+	cd /home/ratatouille/2dplatformer/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/GameLibrary.dir/build.make src/CMakeFiles/GameLibrary.dir/game_object.cpp.o
+.PHONY : game_object.cpp.o
+
+game_object.i: game_object.cpp.i
+.PHONY : game_object.i
+
+# target to preprocess a source file
+game_object.cpp.i:
+	cd /home/ratatouille/2dplatformer/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/GameLibrary.dir/build.make src/CMakeFiles/GameLibrary.dir/game_object.cpp.i
+.PHONY : game_object.cpp.i
+
+game_object.s: game_object.cpp.s
+.PHONY : game_object.s
+
+# target to generate assembly for a file
+game_object.cpp.s:
+	cd /home/ratatouille/2dplatformer/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/GameLibrary.dir/build.make src/CMakeFiles/GameLibrary.dir/game_object.cpp.s
+.PHONY : game_object.cpp.s
+
 resource_manager.o: resource_manager.cpp.o
 .PHONY : resource_manager.o
 
@@ -335,6 +383,12 @@ help:
 	@echo "... game.o"
 	@echo "... game.i"
 	@echo "... game.s"
+	@echo "... game_level.o"
+	@echo "... game_level.i"
+	@echo "... game_level.s"
+	@echo "... game_object.o"
+	@echo "... game_object.i"
+	@echo "... game_object.s"
 	@echo "... resource_manager.o"
 	@echo "... resource_manager.i"
 	@echo "... resource_manager.s"

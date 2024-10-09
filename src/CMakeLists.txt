@@ -5,6 +5,8 @@ set(SOURCES
     stb_image.cpp
     texture.cpp
     sprite_renderer.cpp
+    game_object.cpp
+    game_level.cpp
 )
 
 add_library(GameLibrary ${SOURCES})

@@ -1,6 +1,10 @@
 file(REMOVE_RECURSE
   "CMakeFiles/GameLibrary.dir/game.cpp.o"
   "CMakeFiles/GameLibrary.dir/game.cpp.o.d"
+  "CMakeFiles/GameLibrary.dir/game_level.cpp.o"
+  "CMakeFiles/GameLibrary.dir/game_level.cpp.o.d"
+  "CMakeFiles/GameLibrary.dir/game_object.cpp.o"
+  "CMakeFiles/GameLibrary.dir/game_object.cpp.o.d"
   "CMakeFiles/GameLibrary.dir/resource_manager.cpp.o"
   "CMakeFiles/GameLibrary.dir/resource_manager.cpp.o.d"
   "CMakeFiles/GameLibrary.dir/shader.cpp.o"
