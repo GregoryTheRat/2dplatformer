@@ -7,6 +7,7 @@ set(SOURCES
     sprite_renderer.cpp
     game_object.cpp
     game_level.cpp
+    player_object.cpp
 )
 
 add_library(GameLibrary ${SOURCES})

@@ -15,8 +15,8 @@
 void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 
-const unsigned int SCR_WIDTH = 1000;
-const unsigned int SCR_HEIGHT = 800;
+const unsigned int SCR_WIDTH = 1920;
+const unsigned int SCR_HEIGHT = 980;
 
 Game Platformer(SCR_WIDTH, SCR_HEIGHT);
 

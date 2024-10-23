@@ -247,6 +247,30 @@ game_object.cpp.s:
 	cd /home/ratatouille/2dplatformer/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/GameLibrary.dir/build.make src/CMakeFiles/GameLibrary.dir/game_object.cpp.s
 .PHONY : game_object.cpp.s
 
+player_object.o: player_object.cpp.o
+.PHONY : player_object.o
+
+# target to build an object file
+player_object.cpp.o:
+	cd /home/ratatouille/2dplatformer/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/GameLibrary.dir/build.make src/CMakeFiles/GameLibrary.dir/player_object.cpp.o
+.PHONY : player_object.cpp.o
+
+player_object.i: player_object.cpp.i
+.PHONY : player_object.i
+
+# target to preprocess a source file
+player_object.cpp.i:
+	cd /home/ratatouille/2dplatformer/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/GameLibrary.dir/build.make src/CMakeFiles/GameLibrary.dir/player_object.cpp.i
+.PHONY : player_object.cpp.i
+
+player_object.s: player_object.cpp.s
+.PHONY : player_object.s
+
+# target to generate assembly for a file
+player_object.cpp.s:
+	cd /home/ratatouille/2dplatformer/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/GameLibrary.dir/build.make src/CMakeFiles/GameLibrary.dir/player_object.cpp.s
+.PHONY : player_object.cpp.s
+
 resource_manager.o: resource_manager.cpp.o
 .PHONY : resource_manager.o
 
@@ -389,6 +413,9 @@ help:
 	@echo "... game_object.o"
 	@echo "... game_object.i"
 	@echo "... game_object.s"
+	@echo "... player_object.o"
+	@echo "... player_object.i"
+	@echo "... player_object.s"
 	@echo "... resource_manager.o"
 	@echo "... resource_manager.i"
 	@echo "... resource_manager.s"

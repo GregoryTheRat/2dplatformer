@@ -19,6 +19,7 @@ class Game
         unsigned int Width, Height;
         std::vector<GameLevel> Levels;
         unsigned int Level;
+
         Game(unsigned int width, unsigned int height);
         ~Game();
         void Init();

@@ -11,6 +11,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/ratatouille/2dplatformer/src/game.cpp" "src/CMakeFiles/GameLibrary.dir/game.cpp.o" "gcc" "src/CMakeFiles/GameLibrary.dir/game.cpp.o.d"
   "/home/ratatouille/2dplatformer/src/game_level.cpp" "src/CMakeFiles/GameLibrary.dir/game_level.cpp.o" "gcc" "src/CMakeFiles/GameLibrary.dir/game_level.cpp.o.d"
   "/home/ratatouille/2dplatformer/src/game_object.cpp" "src/CMakeFiles/GameLibrary.dir/game_object.cpp.o" "gcc" "src/CMakeFiles/GameLibrary.dir/game_object.cpp.o.d"
+  "/home/ratatouille/2dplatformer/src/player_object.cpp" "src/CMakeFiles/GameLibrary.dir/player_object.cpp.o" "gcc" "src/CMakeFiles/GameLibrary.dir/player_object.cpp.o.d"
   "/home/ratatouille/2dplatformer/src/resource_manager.cpp" "src/CMakeFiles/GameLibrary.dir/resource_manager.cpp.o" "gcc" "src/CMakeFiles/GameLibrary.dir/resource_manager.cpp.o.d"
   "/home/ratatouille/2dplatformer/src/shader.cpp" "src/CMakeFiles/GameLibrary.dir/shader.cpp.o" "gcc" "src/CMakeFiles/GameLibrary.dir/shader.cpp.o.d"
   "/home/ratatouille/2dplatformer/src/sprite_renderer.cpp" "src/CMakeFiles/GameLibrary.dir/sprite_renderer.cpp.o" "gcc" "src/CMakeFiles/GameLibrary.dir/sprite_renderer.cpp.o.d"
