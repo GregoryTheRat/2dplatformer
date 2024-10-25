@@ -35,24 +35,26 @@ void Game::Init()
 
 
     GameLevel one; 
-    glm::vec2 unitSize = one.Load("../../levels/first.txt", this->Width, this->Height);
+    //levelData contains unit size and spawn point
+    glm::vec4 levelData = one.Load("../../levels/first.txt", this->Width, this->Height);
     //TODO: try to find a better way to determine player size
     //glm::vec2 playerSize = {unitSize.y / 2, unitSize.x / 2};
-    glm::vec2 playerSize = {unitSize.y, unitSize.x};
+    glm::vec2 playerSize = {levelData.y, levelData.x};
     this->Levels.push_back(one);
     this->Level = 0;
 
-    glm::vec2 playerPos = glm::vec2(20.0f, 400.0f);
+    glm::vec2 spawnPoint = {levelData.z, levelData.w};
     //Player = new PlayerObject();
     //Player->Sprite = ResourceManager::GetTexture("pepe");
     //Player->Position = playerPos;
     //Player->Size = glm::vec2(50.0f, 50.0f);
-    Player = new PlayerObject(playerPos, playerSize, 3, ResourceManager::GetTexture("pepe"));
+    Player = new PlayerObject(spawnPoint, playerSize, 3, ResourceManager::GetTexture("pepe"));
 }
 
 void Game::Update(float dt)
 {
     Player->Move(dt);
+    this->DoCollisions();
 }
 
 void Game::ProcessInput(float dt)
@@ -113,6 +115,38 @@ void Game::Render()
         //draw background
 
         Player->Draw(*Renderer);
-        //this->Levels[this->Level].Draw(*Renderer);
+        this->Levels[this->Level].Draw(*Renderer);
+    }
+}
+
+bool Game::CheckCollision(GameObject &one, GameObject &two)
+{
+    bool collisionX = one.Position.x + one.Size.x >= two.Position.x &&
+        two.Position.x + two.Size.x >= one.Position.x;
+
+    bool collisionY = one.Position.y + one.Size.y >= two.Position.y &&
+        two.Position.y + two.Size.y >= one.Position.y;
+
+    return collisionX && collisionY;
+}
+
+void Game::DoCollisions()
+{
+    for (GameObject &platform : this->Levels[this->Level].Platforms)
+    {
+        if (!platform.Destroyed)
+        {
+            if (CheckCollision(*Player, platform))
+            {
+                //TODO: depending on the type of platform, there should be different effects
+                
+                //check if platform is above/below, or to the right/left, or both
+                /*
+                bool vertical = (platform.Position.y > Player->Position.y ||
+                    platform.Position.y < Player->Position.y)
+                */
+               Player->Velocity = {0.0f, 0.0f};
+            }
+        }
     }
 }
