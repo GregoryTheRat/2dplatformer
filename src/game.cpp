@@ -37,12 +37,12 @@ void Game::Init()
     GameLevel one; 
     glm::vec2 unitSize = one.Load("../../levels/first.txt", this->Width, this->Height);
     //TODO: try to find a better way to determine player size
-    glm::vec2 playerSize = {unitSize.y / 2, unitSize.x / 2};
-    std::cout << unitSize[0] << " " << unitSize[1] << std::endl;
+    //glm::vec2 playerSize = {unitSize.y / 2, unitSize.x / 2};
+    glm::vec2 playerSize = {unitSize.y, unitSize.x};
     this->Levels.push_back(one);
     this->Level = 0;
 
-    glm::vec2 playerPos = glm::vec2(20.0f, 10.0f);
+    glm::vec2 playerPos = glm::vec2(20.0f, 400.0f);
     //Player = new PlayerObject();
     //Player->Sprite = ResourceManager::GetTexture("pepe");
     //Player->Position = playerPos;
@@ -62,22 +62,46 @@ void Game::ProcessInput(float dt)
         //TODO:implement accelerating and deccelerating movement
         if (this->Keys[GLFW_KEY_D])
         {
-            Player->Position.x += 1.5f;
+            if (Player->Velocity.x < 400)
+                Player->Velocity.x += 12.5f;
+        }
+        else 
+        {
+            if (Player->Velocity.x > 0)
+                Player->Velocity.x -= 12.5f;
         }
 
         if (this->Keys[GLFW_KEY_A])
         {
-            Player->Position.x -= 1.5f;
+            if (Player->Velocity.x > -400)
+                Player->Velocity.x -= 12.5f;
+        }
+        else 
+        {
+            if (Player->Velocity.x < 0)
+                Player->Velocity.x += 15.0f;
         }
 
         if (this->Keys[GLFW_KEY_W])
         {
-            Player->Position.y -= 1.5f;
+            if (Player->Velocity.y > -400)
+                Player->Velocity.y -= 12.5f;
+        }
+        else
+        {
+            if (Player->Velocity.y < 0)
+                Player->Velocity.y += 12.5f;
         }
 
         if (this->Keys[GLFW_KEY_S])
         {
-            Player->Position.y += 1.5f;
+            if (Player->Velocity.y < 400)
+                Player->Velocity.y += 12.5f;
+        }
+        else 
+        {
+            if (Player->Velocity.y > 0)
+                Player->Velocity.y -= 12.5f;
         }
     }
 }
@@ -89,6 +113,6 @@ void Game::Render()
         //draw background
 
         Player->Draw(*Renderer);
-        this->Levels[this->Level].Draw(*Renderer);
+        //this->Levels[this->Level].Draw(*Renderer);
     }
 }

@@ -64,7 +64,7 @@ int main()
     {
         //calc delta time
         float currentFrame = glfwGetTime();
-        deltaTime = currentFrame = lastFrame;
+        deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
         glfwPollEvents();
 
