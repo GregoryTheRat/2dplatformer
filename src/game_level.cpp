@@ -3,7 +3,12 @@
 #include <fstream>
 #include <sstream>
 
-void GameLevel::Load(const char *file, unsigned int levelWidth, unsigned int levelHeight)
+/// @brief 
+/// @param tileData 
+/// @param lvlWidth 
+/// @param lvlHeight 
+/// @return returns the calculated unit size based on the window and the amount of tiles.
+glm::vec2 GameLevel::Load(const char *file, unsigned int levelWidth, unsigned int levelHeight)
 {
     // clear old data
     this->Platforms.clear();
@@ -24,11 +29,20 @@ void GameLevel::Load(const char *file, unsigned int levelWidth, unsigned int lev
             tileData.push_back(row);
         }
         if (tileData.size() > 0)
-            this->init(tileData, levelWidth, levelHeight);
+        {
+            glm::vec2 unit_size = this->init(tileData, levelWidth, levelHeight);
+            return unit_size;
+        }
     }
+    return glm::vec2 {0, 0};
 }
 
-void GameLevel::init(std::vector<std::vector<unsigned int>> tileData, 
+/// @brief 
+/// @param tileData 
+/// @param lvlWidth 
+/// @param lvlHeight 
+/// @return returns the calculated unit size based on the window and the amount of tiles.
+glm::vec2 GameLevel::init(std::vector<std::vector<unsigned int>> tileData, 
                      unsigned int lvlWidth, unsigned int lvlHeight)
 {
     // calculate dimensions
@@ -53,26 +67,11 @@ void GameLevel::init(std::vector<std::vector<unsigned int>> tileData,
                 obj.IsSolid = true;
                 this->Platforms.push_back(obj);
             }
-            else if (tileData[y][x] > 1)	
-            {
-                glm::vec3 color = glm::vec3(1.0f); // original: white
-                if (tileData[y][x] == 2)
-                    color = glm::vec3(0.2f, 0.6f, 1.0f);
-                else if (tileData[y][x] == 3)
-                    color = glm::vec3(0.0f, 0.7f, 0.0f);
-                else if (tileData[y][x] == 4)
-                    color = glm::vec3(0.8f, 0.8f, 0.4f);
-                else if (tileData[y][x] == 5)
-                    color = glm::vec3(1.0f, 0.5f, 0.0f);
-
-                glm::vec2 pos(unit_width * x, unit_height * y);
-                glm::vec2 size(unit_width, unit_height);
-                this->Platforms.push_back(
-                    GameObject(pos, size, ResourceManager::GetTexture("pepe"), color)
-                );
-            }
+            //TODO: implement other tiles
         }
     }  
+
+    return glm::vec2 {unit_width, unit_height};
 }
 
 void GameLevel::Draw(SpriteRenderer &renderer)

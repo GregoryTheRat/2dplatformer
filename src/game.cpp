@@ -1,5 +1,7 @@
 #include "game.h"
 
+#include <iostream>
+
 #include "resource_manager.h"
 #include "sprite_renderer.h"
 #include "player_object.h"
@@ -31,16 +33,21 @@ void Game::Init()
     ResourceManager::LoadTexture("../../assets/img/pepe.png", true, "pepe");
     ResourceManager::LoadTexture("../../assets/img/platforms/container.png", false, "container");
 
-    glm::vec2 playerPos = glm::vec2(20.0f, 10.0f);
-    Player = new PlayerObject();
-    Player->Sprite = ResourceManager::GetTexture("pepe");
-    Player->Position = playerPos;
-    Player->Size = glm::vec2(50.0f, 50.0f);
-    //Player = new PlayerObject(playerPos, glm::vec2(0.0f, 0.0f), 3, ResourceManager::GetTexture("container"));
 
-    GameLevel one; one.Load("../../levels/first.txt", this->Width, this->Height / 2);
+    GameLevel one; 
+    glm::vec2 unitSize = one.Load("../../levels/first.txt", this->Width, this->Height);
+    //TODO: try to find a better way to determine player size
+    glm::vec2 playerSize = {unitSize.y / 2, unitSize.x / 2};
+    std::cout << unitSize[0] << " " << unitSize[1] << std::endl;
     this->Levels.push_back(one);
     this->Level = 0;
+
+    glm::vec2 playerPos = glm::vec2(20.0f, 10.0f);
+    //Player = new PlayerObject();
+    //Player->Sprite = ResourceManager::GetTexture("pepe");
+    //Player->Position = playerPos;
+    //Player->Size = glm::vec2(50.0f, 50.0f);
+    Player = new PlayerObject(playerPos, playerSize, 3, ResourceManager::GetTexture("pepe"));
 }
 
 void Game::Update(float dt)
