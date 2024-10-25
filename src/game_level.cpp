@@ -7,8 +7,8 @@
 /// @param tileData 
 /// @param lvlWidth 
 /// @param lvlHeight 
-/// @return returns the calculated unit size based on the window and the amount of tiles.
-glm::vec2 GameLevel::Load(const char *file, unsigned int levelWidth, unsigned int levelHeight)
+/// @return loads level from file, returns the calculated unit size and spawn point.
+glm::vec4 GameLevel::Load(const char *file, unsigned int levelWidth, unsigned int levelHeight)
 {
     // clear old data
     this->Platforms.clear();
@@ -30,11 +30,11 @@ glm::vec2 GameLevel::Load(const char *file, unsigned int levelWidth, unsigned in
         }
         if (tileData.size() > 0)
         {
-            glm::vec2 unit_size = this->init(tileData, levelWidth, levelHeight);
+            glm::vec4 unit_size = this->init(tileData, levelWidth, levelHeight);
             return unit_size;
         }
     }
-    return glm::vec2 {0, 0};
+    return glm::vec4 {0, 0, 0, 0};
 }
 
 /// @brief 
@@ -42,9 +42,10 @@ glm::vec2 GameLevel::Load(const char *file, unsigned int levelWidth, unsigned in
 /// @param lvlWidth 
 /// @param lvlHeight 
 /// @return returns the calculated unit size based on the window and the amount of tiles.
-glm::vec2 GameLevel::init(std::vector<std::vector<unsigned int>> tileData, 
+glm::vec4 GameLevel::init(std::vector<std::vector<unsigned int>> tileData, 
                      unsigned int lvlWidth, unsigned int lvlHeight)
 {
+    glm::vec2 spawnPoint;
     // calculate dimensions
     unsigned int height = tileData.size();
     unsigned int width  = tileData[0].size();
@@ -68,10 +69,14 @@ glm::vec2 GameLevel::init(std::vector<std::vector<unsigned int>> tileData,
                 this->Platforms.push_back(obj);
             }
             //TODO: implement other tiles
+            if (tileData[y][x] == 9)
+            {
+               spawnPoint = {unit_width * x, unit_height * y}; 
+            }
         }
     }  
 
-    return glm::vec2 {unit_width, unit_height};
+    return glm::vec4 {unit_width, unit_height, spawnPoint.x, spawnPoint.y};
 }
 
 void GameLevel::Draw(SpriteRenderer &renderer)

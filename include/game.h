@@ -27,6 +27,9 @@ class Game
         void ProcessInput(float dt);
         void Update(float dt);
         void Render();
+        //check for collision based on bounding box (axis-aligned bounding box)
+        bool CheckCollision(GameObject &one, GameObject &two);
+        void DoCollisions();
 };
 
 #endif
