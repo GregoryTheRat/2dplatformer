@@ -144,30 +144,34 @@ void Game::DoCollisions()
                 
                 //TODO: fix this, janky as hell, doesnt work.
                 //solution: probably vectors and angles?
-                /*
-               float overlapX = std::min(Player->Position.x + Player->Size.x, platform.Position.x + platform.Size.x ) 
-                    - std::max(Player->Position.x, platform.Position.x );
-               float overlapY = std::min(Player->Position.y, platform.Position.y) 
-                    - std::max(Player->Position.y + Player->Size.y, platform.Position.y + platform.Size.y );
 
-               if (Player->Position.x < platform.Position.x) 
-               {
-                    Player->Position.x += overlapX; // Push player left
-               } 
-               else 
-               {
-                    Player->Position.x -= overlapX; // Push player right
-               }
+                float overlapX = std::min((Player->Position.x + Player->Size.x), (platform.Position.x + platform.Size.x)) 
+                    - std::max(Player->Position.x, platform.Position.x);
+                float overlapY = std::min((Player->Position.y + Player->Size.y), (platform.Position.y + platform.Size.y)) 
+                    - std::max(Player->Position.y, platform.Position.y);
 
-               if (Player->Position.y < platform.Position.y) 
-               {
-                    Player->Position.y += overlapY; // Push player down
-               }
-               else 
-               {
-                    Player->Position.y -= overlapY; // Push player up
-               }*/
-
+                if (overlapX < overlapY)
+                {
+                    if (Player->Position.x > platform.Position.x)
+                    {
+                        Player->Position.x += overlapX;
+                    }
+                    else
+                    {
+                        Player->Position.x -= overlapX;
+                    }
+                }
+                else if (overlapY < overlapX) 
+                {
+                    if (Player->Position.y < platform.Position.y)
+                    {
+                        Player->Position.y -= overlapY;
+                    }
+                    else
+                    {
+                        Player->Position.y += overlapY;
+                    }
+                }
             }
         }
     }
