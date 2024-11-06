@@ -49,6 +49,7 @@ void Game::Init()
     //Player->Position = playerPos;
     //Player->Size = glm::vec2(50.0f, 50.0f);
     Player = new PlayerObject(spawnPoint, playerSize, 3, ResourceManager::GetTexture("pepe"));
+    Player->Velocity = {0.0f, 400.0f};
 }
 
 void Game::Update(float dt)
@@ -83,18 +84,17 @@ void Game::ProcessInput(float dt)
             if (Player->Velocity.x < 0)
                 Player->Velocity.x += 15.0f;
         }
-
         if (this->Keys[GLFW_KEY_W])
         {
             if (Player->Velocity.y > -400)
-                Player->Velocity.y -= 12.5f;
+                Player->Velocity.y += -200.0f;
         }
         else
         {
-            if (Player->Velocity.y < 0)
+            if (Player->Velocity.y < 400)
                 Player->Velocity.y += 12.5f;
         }
-
+        /*
         if (this->Keys[GLFW_KEY_S])
         {
             if (Player->Velocity.y < 400)
@@ -104,7 +104,7 @@ void Game::ProcessInput(float dt)
         {
             if (Player->Velocity.y > 0)
                 Player->Velocity.y -= 12.5f;
-        }
+        }*/
     }
 }
 
