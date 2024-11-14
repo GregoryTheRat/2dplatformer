@@ -15,11 +15,14 @@ glm::vec2 PlayerObject::Move(float dt)
         this->Position += revYVelocity * dt;
         if (Jumped)
         {
-            //time is going to 1 and back to 0
             double t = glfwGetTime() - this->JumpStartT;
-            printf("time: %f ", t);
-            printf("velocity.y: %f\n", this->Velocity.y);
+            //printf("time: %f ", t);
+            //printf("velocity.y: %f\n", this->Velocity.y);
             this->Velocity.y = 400.0f * sin(45.0f) - (400.0f * t);
+
+            if (this->Velocity.y <= -400.0f){
+                this->Velocity.y = -400.0f;
+            }
         }
     }
 

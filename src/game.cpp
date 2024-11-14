@@ -133,6 +133,8 @@ void Game::DoCollisions()
                 //TODO: fix this, janky as hell, doesnt work.
                 //solution: probably vectors and angles?
 
+                platform.DoCollisionBehaviour(Player);
+
                 float overlapX = std::min((Player->Position.x + Player->Size.x), (platform.Position.x + platform.Size.x)) 
                     - std::max(Player->Position.x, platform.Position.x);
                 float overlapY = std::min((Player->Position.y + Player->Size.y), (platform.Position.y + platform.Size.y)) 

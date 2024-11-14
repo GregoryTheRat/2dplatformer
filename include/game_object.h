@@ -22,7 +22,9 @@ public:
     GameObject();
     GameObject(glm::vec2 pos, glm::vec2 size, Texture2D sprite, glm::vec3 color = glm::vec3(1.0f), glm::vec2 Velocity = glm::vec2(0.0f, 0.0f));
 
+    void DoCollisionBehaviour(GameObject *otherObject);
     virtual void Draw(SpriteRenderer &renderer);
+
 };
 
 #endif
