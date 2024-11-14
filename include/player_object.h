@@ -14,10 +14,14 @@ public:
     unsigned int Health;
     unsigned int BoostFrames;
     bool Stuck;
+    bool Jumped;
+    double JumpStartT;
 
     //constructors
     PlayerObject();
     PlayerObject(glm::vec2 pos, glm::vec2 size, unsigned int health, Texture2D sprite);
+
+    void Jump();
 
     glm::vec2 Move(float dt);
     void Respawn(glm::vec2 pos);
