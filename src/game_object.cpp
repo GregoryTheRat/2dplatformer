@@ -13,6 +13,7 @@ void GameObject::DoCollisionBehaviour(GameObject *otherObject)
 {
     //for the default platform, the coll.behaviour should be to push the player away with overlap (currently handled in game.cpp),
     //and if the player is on top of the platform to reset its jump mechanic.
+    glm::vec2 difference (this->Position - otherObject->Position );
     glm::vec2 compass[] = {
         glm::vec2(0.0f, 1.0f),	// up
         glm::vec2(1.0f, 0.0f),	// right
@@ -23,7 +24,7 @@ void GameObject::DoCollisionBehaviour(GameObject *otherObject)
     unsigned int best_match = -1;
     for (unsigned int i = 0; i < 4; i++)
     {
-        float dot_product = glm::dot(glm::normalize(otherObject->Position), compass[i]);
+        float dot_product = glm::dot(glm::normalize(difference), compass[i]);
         if (dot_product > max)
         {
             max = dot_product;
@@ -31,8 +32,6 @@ void GameObject::DoCollisionBehaviour(GameObject *otherObject)
         }
     }
 
-    printf("best match: %u\n", best_match);
-   
     if (best_match == 0)
     {
         PlayerObject* player = dynamic_cast<PlayerObject*> (otherObject);
