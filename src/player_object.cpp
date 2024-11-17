@@ -24,7 +24,7 @@ glm::vec2 PlayerObject::Move(float dt)
                 this->Velocity.y = -400.0f;
             }
             //printf("velocity.y: %f\n", this->Velocity.y);
-            printf("elapsed time: %f\n", t);
+            //printf("elapsed time: %f\n", t);
         }
     }
 

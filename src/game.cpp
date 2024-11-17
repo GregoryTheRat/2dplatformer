@@ -164,13 +164,14 @@ void Game::DoCollisions()
                     }
                 }*/
             }
+            /*
             else 
             {
                 if (!Player->Jumped)
                 {
                     Player->Velocity.y = -400.0f;
                 }
-            }
+            }*/
         }
     }
 }
