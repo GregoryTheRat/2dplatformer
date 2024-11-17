@@ -120,6 +120,7 @@ bool Game::CheckCollision(GameObject &one, GameObject &two)
 
 void Game::DoCollisions()
 {
+    bool collided = false;
     for (GameObject &platform : this->Levels[this->Level].Platforms)
     {
         if (!platform.Destroyed)
@@ -132,7 +133,7 @@ void Game::DoCollisions()
                 
                 //TODO: fix this, janky as hell, doesnt work.
                 //solution: probably vectors and angles?
-
+                collided = true;
                 platform.DoCollisionBehaviour(Player);
 
                 /*
@@ -164,14 +165,15 @@ void Game::DoCollisions()
                     }
                 }*/
             }
-            /*
-            else 
-            {
-                if (!Player->Jumped)
-                {
-                    Player->Velocity.y = -400.0f;
-                }
-            }*/
+        }
+    }
+
+    if (!collided)
+    {
+        Player->CanJump = false;
+        if (!Player->Jumped)
+        {
+            Player->Velocity.y = -400.0f;
         }
     }
 }

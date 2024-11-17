@@ -2,10 +2,12 @@
 #include "GLFW/glfw3.h"
 
 PlayerObject::PlayerObject()
-    : GameObject(), Health(3), BoostFrames(0), Stuck(false), Jumped(false) {}
+    : GameObject(), Health(3), BoostFrames(0), Stuck(false), Jumped(false), CanJump(false) {}
 
 PlayerObject::PlayerObject(glm::vec2 pos, glm::vec2 size, unsigned int health, Texture2D sprite)
-    : GameObject(pos, size, sprite, glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2 (0.0f, 0.0f)), Health(health), BoostFrames(0), Stuck(false), Jumped(false) {}
+    : GameObject(pos, size, sprite, glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2 (0.0f, 0.0f)), Health(health), BoostFrames(0), Stuck(false), Jumped(false), CanJump(false) {}
+
+float jumpAngle = 45.0f;
 
 glm::vec2 PlayerObject::Move(float dt) 
 {
@@ -18,7 +20,7 @@ glm::vec2 PlayerObject::Move(float dt)
             double t = glfwGetTime() - this->JumpStartT;
             //printf("time: %f ", t);
             //printf("velocity.y: %f\n", this->Velocity.y);
-            this->Velocity.y = 400.0f * sin(45.0f) - (400.0f * t);
+            this->Velocity.y = 400.0f * sin(jumpAngle) - (400.0f * t);
 
             if (this->Velocity.y <= -400.0f){
                 this->Velocity.y = -400.0f;
@@ -32,11 +34,16 @@ glm::vec2 PlayerObject::Move(float dt)
 }
 
 void PlayerObject::Jump() {
+    if (!CanJump)
+    {
+        return;
+    }
+
     if (!Jumped)
     {
         this->JumpStartT = glfwGetTime(); 
-        this->Velocity.x = this->Velocity.x * cos(45.0f);    
-        this->Velocity.y = 400.0f * sin(45.0f);    
+        this->Velocity.x = this->Velocity.x * cos(jumpAngle);    
+        this->Velocity.y = 400.0f * sin(jumpAngle);    
         Jumped = true;
     }
 }

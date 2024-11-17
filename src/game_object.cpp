@@ -46,10 +46,17 @@ void GameObject::DoCollisionBehaviour(GameObject *otherObject)
             else
             {
                 player->Jumped = false;
+                player->CanJump = true;
+                if (player->Velocity.y == 0)
+                {
+                    break;
+                }
+                printf("player can jump\n");
                 //also resolve overlap
                 float overlapY = std::min((player->Position.y + player->Size.y), (this->Position.y + this->Size.y)) - std::max(player->Position.y, this->Position.y);
-                //player->Velocity.y = 0.0f;
+                player->Velocity.y = 0.0f;
                 player->Position.y -= overlapY;
+                //player->Position.y = this->Position.y-player->Size.y;
             }
             break;
 

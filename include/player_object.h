@@ -14,6 +14,7 @@ public:
     unsigned int Health;
     unsigned int BoostFrames;
     bool Stuck;
+    bool CanJump;
     bool Jumped;
     double JumpStartT;
 
