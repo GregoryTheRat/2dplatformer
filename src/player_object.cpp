@@ -23,6 +23,8 @@ glm::vec2 PlayerObject::Move(float dt)
             if (this->Velocity.y <= -400.0f){
                 this->Velocity.y = -400.0f;
             }
+            //printf("velocity.y: %f\n", this->Velocity.y);
+            printf("elapsed time: %f\n", t);
         }
     }
 

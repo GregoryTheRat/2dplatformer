@@ -11,9 +11,11 @@ GameObject::GameObject(glm::vec2 pos, glm::vec2 size, Texture2D sprite, glm::vec
 
 void GameObject::DoCollisionBehaviour(GameObject *otherObject) 
 {
-    //for the default platform, the coll.behaviour should be to push the player away with overlap (currently handled in game.cpp),
+    //for the default platform, the coll.behaviour should be to push the player away with overlap,
     //and if the player is on top of the platform to reset its jump mechanic.
-    glm::vec2 difference (this->Position - otherObject->Position );
+    glm::vec2 otherCenter(otherObject->Position.x + otherObject->Size.x / 2, otherObject->Position.y + otherObject->Size.y / 2);
+    glm::vec2 ownCenter(this->Position.x + this->Size.x / 2, this->Position.y + this->Size.y / 2);
+    glm::vec2 difference (ownCenter - otherCenter);
     glm::vec2 compass[] = {
         glm::vec2(0.0f, 1.0f),	// up
         glm::vec2(1.0f, 0.0f),	// right
@@ -32,17 +34,84 @@ void GameObject::DoCollisionBehaviour(GameObject *otherObject)
         }
     }
 
-    if (best_match == 0)
+    PlayerObject* player = dynamic_cast<PlayerObject*> (otherObject);
+    switch (best_match)
     {
-        PlayerObject* player = dynamic_cast<PlayerObject*> (otherObject);
-        if (player == nullptr)
-        {
+        case 0: //up
+            //printf("up\n");
+            if (player == nullptr)
+            {
 
-        }
-        else
-        {
-            player->Jumped = false;
-        }
+            }
+            else
+            {
+                player->Jumped = false;
+                //also resolve overlap
+                float overlapY = std::min((player->Position.y + player->Size.y), (this->Position.y + this->Size.y)) - std::max(player->Position.y, this->Position.y);
+                player->Velocity.y = 0.0f;
+                player->Position.y -= overlapY;
+            }
+            break;
+
+        case 1: //right
+            //printf("right\n");
+            if (player == nullptr)
+            {
+
+            }
+            else
+            {
+                player->Velocity.x = 0.0f;
+                //also resolve overlap
+                float overlapX = std::min((player->Position.x + player->Size.x), (this->Position.x + this->Size.x)) - std::max(player->Position.x, this->Position.x);
+                player->Position.x -= overlapX;
+            }
+            break;
+
+        case 2: //down
+            //printf("down\n");
+            //also resolve overlap
+            if (player == nullptr)
+            {
+
+            }
+            else
+            {
+                float overlapY = std::min((player->Position.y + player->Size.y), (this->Position.y + this->Size.y)) - std::max(player->Position.y, this->Position.y);
+                player->Position.y += overlapY;
+                //sort of "cheating time" so that the player starts to fall sooner if he hits a platform from below
+                player->JumpStartT -= 0.10f; 
+            }
+            break;
+
+        case 3: //left
+            /*
+            left side is problematic, because the player and the platforms starting point is its top left corner. 
+            That is what causes the short stutter/stuck effect when moving right, as we are resolving a left side mini collision
+            */
+            //printf("left\n");
+            //printf("angle : %f\n", max);
+            if (player == nullptr)
+            {
+
+            }
+            else
+            {
+                /*
+                */
+                if (max > 0.74) //this is to resovle getting stuck on upper left corner of boxes.
+                {
+                    float overlapX = std::min((player->Position.x + player->Size.x), (this->Position.x + this->Size.x)) - std::max(player->Position.x, this->Position.x);
+                    player->Velocity.x = 0.0f;
+                    player->Position.x += overlapX;
+                }
+            }
+            break;
+        
+        default:
+            player->Velocity.x = 0.0f;
+            player->Velocity.y = 0.0f;
+            break;
     }
 }
 

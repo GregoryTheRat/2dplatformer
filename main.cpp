@@ -62,6 +62,7 @@ int main()
     //render loop
     while (!glfwWindowShouldClose(window))
     {
+        
         //calc delta time
         float currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;

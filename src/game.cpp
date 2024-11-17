@@ -135,6 +135,7 @@ void Game::DoCollisions()
 
                 platform.DoCollisionBehaviour(Player);
 
+                /*
                 float overlapX = std::min((Player->Position.x + Player->Size.x), (platform.Position.x + platform.Size.x)) 
                     - std::max(Player->Position.x, platform.Position.x);
                 float overlapY = std::min((Player->Position.y + Player->Size.y), (platform.Position.y + platform.Size.y)) 
@@ -161,6 +162,13 @@ void Game::DoCollisions()
                     {
                         Player->Position.y += overlapY;
                     }
+                }*/
+            }
+            else 
+            {
+                if (!Player->Jumped)
+                {
+                    Player->Velocity.y = -400.0f;
                 }
             }
         }
