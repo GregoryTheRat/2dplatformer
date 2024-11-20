@@ -1,1 +1,1 @@
-jump mecha
+make gravity a const variable, probably increase it, player feels "floaty"

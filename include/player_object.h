@@ -17,15 +17,22 @@ public:
     bool CanJump;
     bool Jumped;
     double JumpStartT;
+    float AccelerationT;
 
     //constructors
     PlayerObject();
     PlayerObject(glm::vec2 pos, glm::vec2 size, unsigned int health, Texture2D sprite);
 
     void Jump();
+    //1 for x+ direction(right), -1 for -x direction(left)
+    void AccelerateOnX(int direction, float dt);
+    void DeccelerateOnX(float dt);
 
     glm::vec2 Move(float dt);
     void Respawn(glm::vec2 pos);
+
+private:
+    void CalcYJumpVelocity();
 };
 
 #endif

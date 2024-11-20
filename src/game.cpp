@@ -62,31 +62,23 @@ void Game::ProcessInput(float dt)
 {
     if (this->State == GAME_ACTIVE)
     {
-        //TODO:implement accelerating and deccelerating movement
+        int xDirection = 0;
         if (this->Keys[GLFW_KEY_D])
         {
-            if (Player->Velocity.x < 400)
-                Player->Velocity.x += 12.5f;
+            xDirection = 1;
         }
-        else 
-        {
-            /*
-            if (Player->Velocity.x > 0)
-                Player->Velocity.x -= 12.5f;
-            */
-        }
-
         if (this->Keys[GLFW_KEY_A])
         {
-            if (Player->Velocity.x > -400)
-                Player->Velocity.x -= 12.5f;
+            xDirection = -1;
+        }
+
+        if (xDirection != 0)
+        {
+            Player->AccelerateOnX(xDirection, dt);
         }
         else 
         {
-            /*
-            if (Player->Velocity.x < 0)
-                Player->Velocity.x += 15.0f;
-            */
+            Player->DeccelerateOnX(dt);
         }
 
         if (this->Keys[GLFW_KEY_W])

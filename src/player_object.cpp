@@ -8,29 +8,72 @@ PlayerObject::PlayerObject(glm::vec2 pos, glm::vec2 size, unsigned int health, T
     : GameObject(pos, size, sprite, glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2 (0.0f, 0.0f)), Health(health), BoostFrames(0), Stuck(false), Jumped(false), CanJump(false) {}
 
 float jumpAngle = 45.0f;
+float growthFactorOnX = 3.0f;
+float decelerationFactorOnX = 6.0f; 
+float maxVelocity = 400.0f;
 
 glm::vec2 PlayerObject::Move(float dt) 
 {
     if (!this->Stuck)
     {
-        glm::vec2 revYVelocity(this->Velocity.x, this->Velocity.y * -1.0f);
-        this->Position += revYVelocity * dt;
         if (Jumped)
         {
-            double t = glfwGetTime() - this->JumpStartT;
-            //printf("time: %f ", t);
-            //printf("velocity.y: %f\n", this->Velocity.y);
-            this->Velocity.y = 400.0f * sin(jumpAngle) - (400.0f * t);
-
-            if (this->Velocity.y <= -400.0f){
-                this->Velocity.y = -400.0f;
-            }
-            //printf("velocity.y: %f\n", this->Velocity.y);
-            //printf("elapsed time: %f\n", t);
+            CalcYJumpVelocity();
         }
+        printf("player velocity x: %f, velocity y: %f\n", this->Velocity.x, this->Velocity.y);
+        glm::vec2 revYVelocity(this->Velocity.x, this->Velocity.y * -1.0f);
+        this->Position += revYVelocity * dt;
     }
 
     return this->Position;
+}
+
+void PlayerObject::AccelerateOnX(int x, float dt)
+{
+    // Reset acceleration time when switching directions
+    if ((x > 0 && this->Velocity.x < 0) || (x < 0 && this->Velocity.x > 0)) {
+        AccelerationT = 0.0f;
+    }
+
+    //update acceleration time for the exp.growth
+    AccelerationT += dt;
+
+    //QUESTION: should the player be able to change acceleration while jumping?
+
+    //TODO?: if this->Velocity.x is already at ~399.1 (close to max velocity, maybe even sooner than that)
+    //then dont do exp.calc for small changes like 399.123333 -> 399.13444444 etc. and just clamp to max?
+
+    // Calculate velocity using exponential growth
+    float velocityX = maxVelocity * (1 - exp(-growthFactorOnX * AccelerationT));
+
+    // Apply direction (x = 1 for right, x = -1 for left)
+    this->Velocity.x = velocityX * x;
+}
+
+void PlayerObject::DeccelerateOnX(float dt)
+{
+    // Reset acceleration time since we're decelerating
+    AccelerationT  = 0.0f;
+
+    // Apply exponential decay
+    this->Velocity.x *= exp(-decelerationFactorOnX * dt);
+
+    // Stop completely if velocity is very small
+    if (fabs(this->Velocity.x) < 0.1f) {
+        this->Velocity.x = 0.0f;
+    }
+}
+
+void PlayerObject::CalcYJumpVelocity()
+{
+    double t = glfwGetTime() - this->JumpStartT;
+    //printf("time: %f ", t);
+    //printf("velocity.y: %f\n", this->Velocity.y);
+    this->Velocity.y = 400.0f * sin(jumpAngle) - (400.0f * t);
+
+    if (this->Velocity.y <= -400.0f){
+        this->Velocity.y = -400.0f;
+    }
 }
 
 void PlayerObject::Jump() {
