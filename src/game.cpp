@@ -165,7 +165,7 @@ void Game::DoCollisions()
         Player->CanJump = false;
         if (!Player->Jumped)
         {
-            Player->Velocity.y = -400.0f;
+            Player->Fall();
         }
     }
 }

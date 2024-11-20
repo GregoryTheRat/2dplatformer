@@ -24,6 +24,7 @@ public:
     PlayerObject(glm::vec2 pos, glm::vec2 size, unsigned int health, Texture2D sprite);
 
     void Jump();
+    void Fall();
     //1 for x+ direction(right), -1 for -x direction(left)
     void AccelerateOnX(int direction, float dt);
     void DeccelerateOnX(float dt);

@@ -10,7 +10,9 @@ PlayerObject::PlayerObject(glm::vec2 pos, glm::vec2 size, unsigned int health, T
 float jumpAngle = 45.0f;
 float growthFactorOnX = 3.0f;
 float decelerationFactorOnX = 6.0f; 
-float maxVelocity = 400.0f;
+float maxVelocityX = 400.0f;
+float maxVelocityY = 400.0f;
+float gravity = 600.0f;
 
 glm::vec2 PlayerObject::Move(float dt) 
 {
@@ -44,7 +46,7 @@ void PlayerObject::AccelerateOnX(int x, float dt)
     //then dont do exp.calc for small changes like 399.123333 -> 399.13444444 etc. and just clamp to max?
 
     // Calculate velocity using exponential growth
-    float velocityX = maxVelocity * (1 - exp(-growthFactorOnX * AccelerationT));
+    float velocityX = maxVelocityX * (1 - exp(-growthFactorOnX * AccelerationT));
 
     // Apply direction (x = 1 for right, x = -1 for left)
     this->Velocity.x = velocityX * x;
@@ -64,15 +66,20 @@ void PlayerObject::DeccelerateOnX(float dt)
     }
 }
 
+void PlayerObject::Fall()
+{
+    this->Velocity.y = -gravity;
+}
+
 void PlayerObject::CalcYJumpVelocity()
 {
     double t = glfwGetTime() - this->JumpStartT;
     //printf("time: %f ", t);
     //printf("velocity.y: %f\n", this->Velocity.y);
-    this->Velocity.y = 400.0f * sin(jumpAngle) - (400.0f * t);
+    this->Velocity.y = maxVelocityY * sin(jumpAngle) - (gravity * t);
 
-    if (this->Velocity.y <= -400.0f){
-        this->Velocity.y = -400.0f;
+    if (this->Velocity.y <= -gravity){
+        this->Velocity.y = -gravity;
     }
 }
 
@@ -86,7 +93,7 @@ void PlayerObject::Jump() {
     {
         this->JumpStartT = glfwGetTime(); 
         this->Velocity.x = this->Velocity.x * cos(jumpAngle);    
-        this->Velocity.y = 400.0f * sin(jumpAngle);    
+        this->Velocity.y = maxVelocityY * sin(jumpAngle);    
         Jumped = true;
     }
 }
