@@ -45,7 +45,7 @@ void GameObject::DoCollisionBehaviour(GameObject *otherObject)
             }
             else
             {
-                player->Jumped = false;
+                player->Jumping = false;
                 player->CanJump = true;
                 if (player->Velocity.y == 0)
                 {

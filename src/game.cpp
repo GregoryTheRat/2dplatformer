@@ -85,6 +85,11 @@ void Game::ProcessInput(float dt)
         {
             Player->Jump();
         }
+
+        if (this->Keys[GLFW_KEY_LEFT_SHIFT])
+        {
+           Player->Dash(); 
+        }
     }
 }
 
@@ -163,7 +168,7 @@ void Game::DoCollisions()
     if (!collided)
     {
         Player->CanJump = false;
-        if (!Player->Jumped)
+        if (!Player->Jumping)
         {
             Player->Fall();
         }

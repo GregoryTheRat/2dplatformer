@@ -15,9 +15,12 @@ public:
     unsigned int BoostFrames;
     bool Stuck;
     bool CanJump;
-    bool Jumped;
-    double JumpStartT;
+    bool Jumping;
+    bool CanDash;
+    bool Dashing;
+    float JumpStartT;
     float AccelerationT;
+    float DashT;
 
     //constructors
     PlayerObject();
@@ -28,12 +31,14 @@ public:
     //1 for x+ direction(right), -1 for -x direction(left)
     void AccelerateOnX(int direction, float dt);
     void DeccelerateOnX(float dt);
+    void Dash();
 
     glm::vec2 Move(float dt);
     void Respawn(glm::vec2 pos);
 
 private:
     void CalcYJumpVelocity();
+    void CalcDash(float dt);
 };
 
 #endif

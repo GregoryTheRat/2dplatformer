@@ -2,25 +2,36 @@
 #include "GLFW/glfw3.h"
 
 PlayerObject::PlayerObject()
-    : GameObject(), Health(3), BoostFrames(0), Stuck(false), Jumped(false), CanJump(false) {}
+    : GameObject(), Health(3), BoostFrames(0), Stuck(false), Jumping(false), CanJump(false), CanDash(true) {}
 
 PlayerObject::PlayerObject(glm::vec2 pos, glm::vec2 size, unsigned int health, Texture2D sprite)
-    : GameObject(pos, size, sprite, glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2 (0.0f, 0.0f)), Health(health), BoostFrames(0), Stuck(false), Jumped(false), CanJump(false) {}
+    : GameObject(pos, size, sprite, glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2 (0.0f, 0.0f)), Health(health), BoostFrames(0),
+    Stuck(false), Jumping(false), CanJump(false), CanDash(true) {}
 
 float jumpAngle = 45.0f;
 float growthFactorOnX = 3.0f;
 float decelerationFactorOnX = 6.0f; 
 float maxVelocityX = 400.0f;
+float dashVelocity = 1200.0f;
 float maxVelocityY = 400.0f;
-float gravity = 600.0f;
+float gravity = 1000.0f;
 
 glm::vec2 PlayerObject::Move(float dt) 
 {
     if (!this->Stuck)
     {
-        if (Jumped)
+        if (Jumping)
         {
             CalcYJumpVelocity();
+        }
+        if (Dashing)
+        {
+            CalcDash(dt);    
+        }
+        else
+        {
+            //TODO: dash cooldown
+            CanDash = true;
         }
         printf("player velocity x: %f, velocity y: %f\n", this->Velocity.x, this->Velocity.y);
         glm::vec2 revYVelocity(this->Velocity.x, this->Velocity.y * -1.0f);
@@ -30,10 +41,43 @@ glm::vec2 PlayerObject::Move(float dt)
     return this->Position;
 }
 
-void PlayerObject::AccelerateOnX(int x, float dt)
+void PlayerObject::Dash()
 {
+    if (!CanDash)
+        return;
+
+    Dashing = true;
+    CanDash = false;
+    DashT = 0.0f;
+}
+
+void PlayerObject::CalcDash(float dt)
+{
+    if (this->Velocity.x > 0)
+    {
+        this->Velocity.x = dashVelocity;
+    }
+    else 
+    {
+        this->Velocity.x = -dashVelocity;
+    }
+
+    DashT += dt;
+    printf("DashT: %f\n", DashT);
+
+    if (DashT > 0.2f)
+    {
+        Dashing = false;
+        this->Velocity.x = 0.0f;
+    }
+}
+
+void PlayerObject::AccelerateOnX(int direction, float dt)
+{
+    if (Dashing)
+        return;
     // Reset acceleration time when switching directions
-    if ((x > 0 && this->Velocity.x < 0) || (x < 0 && this->Velocity.x > 0)) {
+    if ((direction > 0 && this->Velocity.x < 0) || (direction < 0 && this->Velocity.x > 0)) {
         AccelerationT = 0.0f;
     }
 
@@ -49,7 +93,7 @@ void PlayerObject::AccelerateOnX(int x, float dt)
     float velocityX = maxVelocityX * (1 - exp(-growthFactorOnX * AccelerationT));
 
     // Apply direction (x = 1 for right, x = -1 for left)
-    this->Velocity.x = velocityX * x;
+    this->Velocity.x = velocityX * direction;
 }
 
 void PlayerObject::DeccelerateOnX(float dt)
@@ -89,12 +133,12 @@ void PlayerObject::Jump() {
         return;
     }
 
-    if (!Jumped)
+    if (!Jumping)
     {
         this->JumpStartT = glfwGetTime(); 
         this->Velocity.x = this->Velocity.x * cos(jumpAngle);    
         this->Velocity.y = maxVelocityY * sin(jumpAngle);    
-        Jumped = true;
+        Jumping = true;
     }
 }
 
