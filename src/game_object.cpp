@@ -68,7 +68,7 @@ void GameObject::DoCollisionBehaviour(GameObject *otherObject)
             }
             else
             {
-                player->Velocity.x = 0.0f;
+                //player->Velocity.x = 0.0f;
                 //also resolve overlap
                 float overlapX = std::min((player->Position.x + player->Size.x), (this->Position.x + this->Size.x)) - std::max(player->Position.x, this->Position.x);
                 player->Position.x -= overlapX;
@@ -96,8 +96,6 @@ void GameObject::DoCollisionBehaviour(GameObject *otherObject)
             left side is problematic, because the player and the platforms starting point is its top left corner. 
             That is what causes the short stutter/stuck effect when moving right, as we are resolving a left side mini collision
             */
-            //printf("left\n");
-            //printf("angle : %f\n", max);
             if (player == nullptr)
             {
 
@@ -109,7 +107,7 @@ void GameObject::DoCollisionBehaviour(GameObject *otherObject)
                 if (max > 0.74) //this is to resovle getting stuck on upper left corner of boxes.
                 {
                     float overlapX = std::min((player->Position.x + player->Size.x), (this->Position.x + this->Size.x)) - std::max(player->Position.x, this->Position.x);
-                    player->Velocity.x = 0.0f;
+                    //player->Velocity.x = 0.0f;
                     player->Position.x += overlapX;
                 }
             }

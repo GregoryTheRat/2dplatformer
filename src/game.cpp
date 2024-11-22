@@ -124,43 +124,8 @@ void Game::DoCollisions()
         {
             if (CheckCollision(*Player, platform))
             {
-                //TODO: depending on the type of platform, there should be different effects
-                
-                //check if platform is above/below, or to the right/left, or both
-                
-                //TODO: fix this, janky as hell, doesnt work.
-                //solution: probably vectors and angles?
                 collided = true;
                 platform.DoCollisionBehaviour(Player);
-
-                /*
-                float overlapX = std::min((Player->Position.x + Player->Size.x), (platform.Position.x + platform.Size.x)) 
-                    - std::max(Player->Position.x, platform.Position.x);
-                float overlapY = std::min((Player->Position.y + Player->Size.y), (platform.Position.y + platform.Size.y)) 
-                    - std::max(Player->Position.y, platform.Position.y);
-
-                if (overlapX < overlapY)
-                {
-                    if (Player->Position.x > platform.Position.x)
-                    {
-                        Player->Position.x += overlapX;
-                    }
-                    else
-                    {
-                        Player->Position.x -= overlapX;
-                    }
-                }
-                else if (overlapY < overlapX) 
-                {
-                    if (Player->Position.y < platform.Position.y)
-                    {
-                        Player->Position.y -= overlapY;
-                    }
-                    else
-                    {
-                        Player->Position.y += overlapY;
-                    }
-                }*/
             }
         }
     }

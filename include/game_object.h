@@ -8,6 +8,7 @@
 #include "sprite_renderer.h"
 
 
+//used as the simplest platform, and every other platform type (and player) is inherited from this class
 class GameObject 
 {
 public:

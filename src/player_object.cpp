@@ -13,7 +13,7 @@ float growthFactorOnX = 3.0f;
 float decelerationFactorOnX = 6.0f; 
 float maxVelocityX = 400.0f;
 float dashVelocity = 1200.0f;
-float maxVelocityY = 400.0f;
+float maxVelocityY = 500.0f;
 float gravity = 1000.0f;
 
 glm::vec2 PlayerObject::Move(float dt) 
@@ -24,14 +24,20 @@ glm::vec2 PlayerObject::Move(float dt)
         {
             CalcYJumpVelocity();
         }
+
         if (Dashing)
         {
             CalcDash(dt);    
         }
-        else
+
+        if (!Dashing && !CanDash)
         {
             //TODO: dash cooldown
-            CanDash = true;
+            if (DashCooldownT > 1.0f)
+            {
+                CanDash = true;
+            }
+            DashCooldownT += dt;
         }
         printf("player velocity x: %f, velocity y: %f\n", this->Velocity.x, this->Velocity.y);
         glm::vec2 revYVelocity(this->Velocity.x, this->Velocity.y * -1.0f);
@@ -49,17 +55,18 @@ void PlayerObject::Dash()
     Dashing = true;
     CanDash = false;
     DashT = 0.0f;
+    DashCooldownT = 0.0f;
 }
 
 void PlayerObject::CalcDash(float dt)
 {
-    if (this->Velocity.x > 0)
+    if (this->Velocity.x < 0)
     {
-        this->Velocity.x = dashVelocity;
+        this->Velocity.x = -dashVelocity;
     }
     else 
     {
-        this->Velocity.x = -dashVelocity;
+        this->Velocity.x = dashVelocity;
     }
 
     DashT += dt;

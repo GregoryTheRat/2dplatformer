@@ -21,6 +21,7 @@ public:
     float JumpStartT;
     float AccelerationT;
     float DashT;
+    float DashCooldownT;
 
     //constructors
     PlayerObject();
