@@ -1,3 +1,2 @@
-fix getting stuck inside pass through blocks
-spike blocks
+simple start menu
 transparent objects?

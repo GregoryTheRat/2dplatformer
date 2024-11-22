@@ -2,10 +2,10 @@
 #include "GLFW/glfw3.h"
 
 PlayerObject::PlayerObject()
-    : GameObject(), Health(3), BoostFrames(0), Stuck(false), Jumping(false), CanJump(false), CanDash(true) {}
+    : GameObject(), Health(3), Stuck(false), Jumping(false), CanJump(false), CanDash(true) {}
 
 PlayerObject::PlayerObject(glm::vec2 pos, glm::vec2 size, unsigned int health, Texture2D sprite)
-    : GameObject(pos, size, sprite, glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2 (0.0f, 0.0f)), Health(health), BoostFrames(0),
+    : GameObject(pos, size, sprite, glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2 (0.0f, 0.0f)), SpawnPoint(pos), Health(health), 
     Stuck(false), Jumping(false), CanJump(false), CanDash(true) {}
 
 float jumpAngle = 45.0f;
@@ -70,7 +70,7 @@ void PlayerObject::CalcDash(float dt)
     }
 
     DashT += dt;
-    printf("DashT: %f\n", DashT);
+    //printf("DashT: %f\n", DashT);
 
     if (DashT > 0.15f)
     {
@@ -149,10 +149,20 @@ void PlayerObject::Jump() {
     }
 }
 
-void PlayerObject::Respawn(glm::vec2 pos) {
-    this->Position = pos;
+void PlayerObject::Respawn() {
+    this->Position = SpawnPoint;
     this->Velocity = glm::vec2(0.0f, 0.0f);
-    this->Health = 3;
-    this->BoostFrames = 0;
+    this->Health--;
     this->Stuck = false;
+    this->Dashing = false; 
+    this->DashCooldownT = 0.0f;
+    this->DashT = 0.0f;
+    this->Jumping = false;
+    this->JumpStartT = 0.0f;
+
+    if (this->Health == 0)
+    {
+        //go back to menu
+        glfwTerminate();
+    }
 }

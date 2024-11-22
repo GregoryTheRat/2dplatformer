@@ -85,6 +85,20 @@ glm::vec4 GameLevel::init(std::vector<std::vector<unsigned int>> tileData,
                 this->Platforms.push_back(obj);
             }
 
+            if (tileData[y][x] == 3) 
+            {
+                glm::vec2 pos(unit_width * x, unit_height * y);
+                glm::vec2 size(unit_width, unit_height);
+                SpikePlatform *obj = new SpikePlatform(
+                    pos,
+                    size, 
+                    ResourceManager::GetTexture("container"), 
+                    glm::vec3(1.0f, 0.0f, 0.0f)
+                );
+                obj->IsSolid = true;
+                this->Platforms.push_back(obj);
+            }
+
             if (tileData[y][x] == 9)
             {
                spawnPoint = {unit_width * x, unit_height * y}; 
@@ -106,10 +120,12 @@ bool GameLevel::IsCompleted()
 {
     return false;
     //when the lvl is finished, free the memory
-    /*
+}
+
+void GameLevel::ClearResources()
+{
     for (GameObject* obj : Platforms) {
         delete obj;
     }
     Platforms.clear();
-    */
 }

@@ -7,6 +7,7 @@
 
 #include "game_object.h"
 #include "pass_through_platform.h"
+#include "spike_platform.h"
 #include "sprite_renderer.h"
 #include "resource_manager.h"
 
@@ -23,6 +24,7 @@ public:
     void Draw(SpriteRenderer &renderer);
     // check if the level is completed 
     bool IsCompleted();
+    void ClearResources();
 private:
     // initialize level from tile data
     glm::vec4 init(std::vector<std::vector<unsigned int>> tileData, 

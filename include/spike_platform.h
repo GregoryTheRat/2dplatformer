@@ -1,13 +1,13 @@
-#ifndef PASSTHROUGHPLATFORM_H
-#define PASSTHROUGHPLATFORM_H
+#ifndef SPIKEPLATFORM_H
+#define SPIKEPLATFORM_H
 
 #include "game_object.h"
 
-class PassThroughPlatform : public GameObject
+class SpikePlatform : public GameObject
 {
 public:
-    PassThroughPlatform();
-    PassThroughPlatform(
+    SpikePlatform();
+    SpikePlatform(
         glm::vec2 pos,
         glm::vec2 size,
         Texture2D sprite,
@@ -15,7 +15,12 @@ public:
         glm::vec2 Velocity = glm::vec2(0.0f, 0.0f));
 
     void DoCollisionBehaviour(GameObject *otherObject) override;
+
 private:
 };
+
+
+
+
 
 #endif

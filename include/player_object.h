@@ -8,7 +8,6 @@ class PlayerObject : public GameObject
 public: 
     //player state vars:
     unsigned int Health;
-    unsigned int BoostFrames;
     bool Stuck;
     bool CanJump;
     bool Jumping;
@@ -18,6 +17,7 @@ public:
     float AccelerationT;
     float DashT;
     float DashCooldownT;
+    glm::vec2 SpawnPoint;
 
     //constructors
     PlayerObject();
@@ -31,7 +31,7 @@ public:
     void Dash();
 
     glm::vec2 Move(float dt);
-    void Respawn(glm::vec2 pos);
+    void Respawn();
 
 private:
     void CalcYJumpVelocity();

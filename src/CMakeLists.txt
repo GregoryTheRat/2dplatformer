@@ -9,6 +9,7 @@ set(SOURCES
     game_level.cpp
     player_object.cpp
     pass_through_platform.cpp
+    spike_platform.cpp
 )
 
 add_library(GameLibrary ${SOURCES})
