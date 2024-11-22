@@ -5,7 +5,8 @@
 #include <GLFW/glfw3.h>
 #include "game_level.h"
 
-enum GameState {
+enum GameState
+{
     GAME_ACTIVE,
     GAME_MENU,
     GAME_WIN

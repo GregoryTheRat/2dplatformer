@@ -18,13 +18,13 @@ public:
     std::vector<GameObject*> Platforms;
     // constructor
     GameLevel() { }
+    ~GameLevel();
     // loads level from file, returns the calculated unit size and spawn point.
     glm::vec4 Load(const char *file, unsigned int levelWidth, unsigned int levelHeight);
     // render level
     void Draw(SpriteRenderer &renderer);
     // check if the level is completed 
     bool IsCompleted();
-    void ClearResources();
 private:
     // initialize level from tile data
     glm::vec4 init(std::vector<std::vector<unsigned int>> tileData, 

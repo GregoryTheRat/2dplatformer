@@ -122,7 +122,7 @@ bool GameLevel::IsCompleted()
     //when the lvl is finished, free the memory
 }
 
-void GameLevel::ClearResources()
+GameLevel::~GameLevel()
 {
     for (GameObject* obj : Platforms) {
         delete obj;
