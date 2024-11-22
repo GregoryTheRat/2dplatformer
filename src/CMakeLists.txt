@@ -8,6 +8,7 @@ set(SOURCES
     game_object.cpp
     game_level.cpp
     player_object.cpp
+    pass_through_platform.cpp
 )
 
 add_library(GameLibrary ${SOURCES})

@@ -61,14 +61,30 @@ glm::vec4 GameLevel::init(std::vector<std::vector<unsigned int>> tileData,
             {
                 glm::vec2 pos(unit_width * x, unit_height * y);
                 glm::vec2 size(unit_width, unit_height);
-                GameObject obj(pos, size, 
+                GameObject *obj = new GameObject(
+                    pos,
+                    size, 
                     ResourceManager::GetTexture("container"), 
-                    glm::vec3(0.8f, 0.8f, 0.7f)
+                    glm::vec3(1.0f, 1.0f, 1.0f)
                 );
-                obj.IsSolid = true;
+                obj->IsSolid = true;
                 this->Platforms.push_back(obj);
             }
-            //TODO: implement other tiles
+
+            if (tileData[y][x] == 2) 
+            {
+                glm::vec2 pos(unit_width * x, unit_height * y);
+                glm::vec2 size(unit_width, unit_height);
+                PassThroughPlatform *obj = new PassThroughPlatform(
+                    pos,
+                    size, 
+                    ResourceManager::GetTexture("container"), 
+                    glm::vec3(0.3f, 0.3f, 0.3f)
+                );
+                obj->IsSolid = true;
+                this->Platforms.push_back(obj);
+            }
+
             if (tileData[y][x] == 9)
             {
                spawnPoint = {unit_width * x, unit_height * y}; 
@@ -81,12 +97,19 @@ glm::vec4 GameLevel::init(std::vector<std::vector<unsigned int>> tileData,
 
 void GameLevel::Draw(SpriteRenderer &renderer)
 {
-    for (GameObject &tile : this->Platforms)
-        if (!tile.Destroyed)
-            tile.Draw(renderer);
+    for (GameObject *tile : this->Platforms)
+        if (!tile->Destroyed)
+            tile->Draw(renderer);
 }
 
 bool GameLevel::IsCompleted()
 {
     return false;
+    //when the lvl is finished, free the memory
+    /*
+    for (GameObject* obj : Platforms) {
+        delete obj;
+    }
+    Platforms.clear();
+    */
 }

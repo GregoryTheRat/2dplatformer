@@ -1,11 +1,7 @@
 #ifndef PLAYEROBJECT_H
 #define PLAYEROBJECT_H
 
-#include <glad/glad.h>
-#include <glm/glm.hpp>
-
 #include "game_object.h"
-#include "texture.h"
 
 class PlayerObject : public GameObject 
 {

@@ -38,24 +38,19 @@ void Game::Init()
     //levelData contains unit size and spawn point
     glm::vec4 levelData = one.Load("../../levels/first.txt", this->Width, this->Height);
     //TODO: try to find a better way to determine player size
-    //glm::vec2 playerSize = {unitSize.y / 2, unitSize.x / 2};
     glm::vec2 playerSize = {levelData.y, levelData.x};
     this->Levels.push_back(one);
     this->Level = 0;
 
-    glm::vec2 spawnPoint = {levelData.z, levelData.w};
-    //Player = new PlayerObject();
-    //Player->Sprite = ResourceManager::GetTexture("pepe");
-    //Player->Position = playerPos;
-    //Player->Size = glm::vec2(50.0f, 50.0f);
+    glm::vec2 spawnPoint = {levelData.z + playerSize.x, levelData.w};
     Player = new PlayerObject(spawnPoint, playerSize, 3, ResourceManager::GetTexture("pepe"));
-    Player->Velocity = {0.0f, -400.0f};
 }
 
 void Game::Update(float dt)
 {
     Player->Move(dt);
     this->DoCollisions();
+    //printf("player pos: %f, %f\n", Player->Position.x, Player->Position.y);
 }
 
 void Game::ProcessInput(float dt)
@@ -118,14 +113,14 @@ bool Game::CheckCollision(GameObject &one, GameObject &two)
 void Game::DoCollisions()
 {
     bool collided = false;
-    for (GameObject &platform : this->Levels[this->Level].Platforms)
+    for (GameObject *platform : this->Levels[this->Level].Platforms)
     {
-        if (!platform.Destroyed)
+        if (!platform->Destroyed)
         {
-            if (CheckCollision(*Player, platform))
+            if (CheckCollision(*Player, *platform))
             {
                 collided = true;
-                platform.DoCollisionBehaviour(Player);
+                platform->DoCollisionBehaviour(Player);
             }
         }
     }

@@ -6,6 +6,7 @@
 #include <glm/glm.hpp>
 
 #include "game_object.h"
+#include "pass_through_platform.h"
 #include "sprite_renderer.h"
 #include "resource_manager.h"
 
@@ -13,7 +14,7 @@ class GameLevel
 {
 public:
     // level state
-    std::vector<GameObject> Platforms;
+    std::vector<GameObject*> Platforms;
     // constructor
     GameLevel() { }
     // loads level from file, returns the calculated unit size and spawn point.

@@ -39,7 +39,7 @@ glm::vec2 PlayerObject::Move(float dt)
             }
             DashCooldownT += dt;
         }
-        printf("player velocity x: %f, velocity y: %f\n", this->Velocity.x, this->Velocity.y);
+        //printf("player velocity x: %f, velocity y: %f\n", this->Velocity.x, this->Velocity.y);
         glm::vec2 revYVelocity(this->Velocity.x, this->Velocity.y * -1.0f);
         this->Position += revYVelocity * dt;
     }
@@ -72,7 +72,7 @@ void PlayerObject::CalcDash(float dt)
     DashT += dt;
     printf("DashT: %f\n", DashT);
 
-    if (DashT > 0.2f)
+    if (DashT > 0.15f)
     {
         Dashing = false;
         this->Velocity.x = 0.0f;
