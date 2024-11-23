@@ -39,7 +39,7 @@ void Game::Init()
     glm::vec4 levelData = one.Load("../../levels/first.txt", this->Width, this->Height);
     //TODO: try to find a better way to determine player size
     glm::vec2 playerSize = {levelData.y, levelData.x};
-    this->Levels.push_back(one);
+    this->Levels.push_back(std::move(one));
     this->Level = 0;
 
     glm::vec2 spawnPoint = {levelData.z + playerSize.x, levelData.w};
@@ -120,7 +120,7 @@ bool Game::CheckCollision(GameObject &one, GameObject &two)
 void Game::DoCollisions()
 {
     bool collided = false;
-    for (GameObject *platform : this->Levels[this->Level].Platforms)
+    for (const auto& platform : this->Levels[this->Level].Platforms)
     {
         if (!platform->Destroyed)
         {

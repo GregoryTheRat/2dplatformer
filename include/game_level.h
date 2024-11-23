@@ -2,6 +2,7 @@
 #define GAMELEVEL_H
 
 #include <vector>
+#include <memory>
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 
@@ -15,7 +16,7 @@ class GameLevel
 {
 public:
     // level state
-    std::vector<GameObject*> Platforms;
+    std::vector<std::shared_ptr<GameObject>> Platforms;
     // constructor
     GameLevel() { }
     ~GameLevel();

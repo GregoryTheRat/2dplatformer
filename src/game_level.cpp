@@ -61,7 +61,7 @@ glm::vec4 GameLevel::init(std::vector<std::vector<unsigned int>> tileData,
             {
                 glm::vec2 pos(unit_width * x, unit_height * y);
                 glm::vec2 size(unit_width, unit_height);
-                GameObject *obj = new GameObject(
+                std::shared_ptr<GameObject> obj = std::make_shared<GameObject>(
                     pos,
                     size, 
                     ResourceManager::GetTexture("container"), 
@@ -75,7 +75,7 @@ glm::vec4 GameLevel::init(std::vector<std::vector<unsigned int>> tileData,
             {
                 glm::vec2 pos(unit_width * x, unit_height * y);
                 glm::vec2 size(unit_width, unit_height);
-                PassThroughPlatform *obj = new PassThroughPlatform(
+                std::shared_ptr<PassThroughPlatform> obj = std::make_shared<PassThroughPlatform>(
                     pos,
                     size, 
                     ResourceManager::GetTexture("container"), 
@@ -89,7 +89,7 @@ glm::vec4 GameLevel::init(std::vector<std::vector<unsigned int>> tileData,
             {
                 glm::vec2 pos(unit_width * x, unit_height * y);
                 glm::vec2 size(unit_width, unit_height);
-                SpikePlatform *obj = new SpikePlatform(
+                std::shared_ptr<SpikePlatform> obj = std::make_shared<SpikePlatform>(
                     pos,
                     size, 
                     ResourceManager::GetTexture("container"), 
@@ -111,7 +111,7 @@ glm::vec4 GameLevel::init(std::vector<std::vector<unsigned int>> tileData,
 
 void GameLevel::Draw(SpriteRenderer &renderer)
 {
-    for (GameObject *tile : this->Platforms)
+    for (const auto& tile : this->Platforms)
         if (!tile->Destroyed)
             tile->Draw(renderer);
 }
@@ -124,8 +124,10 @@ bool GameLevel::IsCompleted()
 
 GameLevel::~GameLevel()
 {
-    for (GameObject* obj : Platforms) {
+    /*
+    for (GameObject *obj : Platforms) {
         delete obj;
     }
     Platforms.clear();
+    */
 }
