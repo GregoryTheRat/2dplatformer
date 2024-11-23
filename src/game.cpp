@@ -90,11 +90,13 @@ void Game::ProcessInput(float dt)
 
 void Game::Render()
 {
+    /*
     if (this->State == GAME_MENU)
     {
         //render the menu
     }
-
+    */
+   
     if (this->State == GAME_ACTIVE)
     {
         //draw background

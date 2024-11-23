@@ -1,7 +1,6 @@
 #ifndef GAMEMENU_H
 #define GAMEMENU_H
 
-#include <list>
 
 enum Direction
 {
@@ -12,13 +11,12 @@ enum Direction
 class GameMenu
 {
 private:
-    std::list<> options;
 
 public:
     GameMenu();
-    //direction
-    ChangeSelectedMenu(Direction direction);
     ~GameMenu();
+    //direction
+    void ChangeSelectedMenu(Direction direction);
 };
 
 #endif
