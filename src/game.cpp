@@ -39,7 +39,7 @@ void Game::Init()
     glm::vec4 levelData = one.Load("../../levels/first.txt", this->Width, this->Height);
     //TODO: try to find a better way to determine player size
     glm::vec2 playerSize = {levelData.y, levelData.x};
-    this->Levels.push_back(std::move(one));
+    this->Levels.push_back(one);
     this->Level = 0;
 
     glm::vec2 spawnPoint = {levelData.z + playerSize.x, levelData.w};
