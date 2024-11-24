@@ -159,10 +159,4 @@ void PlayerObject::Respawn() {
     this->DashT = 0.0f;
     this->Jumping = false;
     this->JumpStartT = 0.0f;
-
-    if (this->Health == 0)
-    {
-        //go back to menu
-        glfwTerminate();
-    }
 }

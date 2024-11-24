@@ -11,7 +11,7 @@ SpriteRenderer *Renderer;
 PlayerObject *Player;
 
 Game::Game(unsigned int width, unsigned int height)
-    : State(GAME_ACTIVE), Keys(), Width(width), Height(height)
+    : State(GAME_MENU), Keys(), Width(width), Height(height), MainMenu()
 {
 
 }
@@ -33,6 +33,7 @@ void Game::Init()
     ResourceManager::LoadTexture("../../assets/img/pepe.png", true, "pepe");
     ResourceManager::LoadTexture("../../assets/img/platforms/container.png", false, "container");
 
+    MainMenu = GameMenu(this->Width, this->Height);
 
     GameLevel one; 
     //levelData contains unit size and spawn point
@@ -41,16 +42,30 @@ void Game::Init()
     glm::vec2 playerSize = {levelData.y, levelData.x};
     this->Levels.push_back(one);
     this->Level = 0;
-
+    
     glm::vec2 spawnPoint = {levelData.z + playerSize.x, levelData.w};
     Player = new PlayerObject(spawnPoint, playerSize, 3, ResourceManager::GetTexture("pepe"));
 }
 
 void Game::Update(float dt)
 {
-    Player->Move(dt);
-    this->DoCollisions();
-    //printf("player pos: %f, %f\n", Player->Position.x, Player->Position.y);
+    if (Player->Health == 0)
+    {
+        this->State = GAME_MENU;
+    }
+
+    if (this->State == GAME_ACTIVE)
+    {
+        Player->Move(dt);
+        this->DoCollisions();
+        //printf("player pos: %f, %f\n", Player->Position.x, Player->Position.y);
+    }
+
+    if (this->State == GAME_MENU)
+    {
+        //update game menu action cooldown
+        MainMenu.UpdateCooldown(dt);
+    }
 }
 
 void Game::ProcessInput(float dt)
@@ -86,16 +101,39 @@ void Game::ProcessInput(float dt)
            Player->Dash(); 
         }
     }
+
+    //menu navigation
+    if (this->State == GAME_MENU)
+    {
+        if (this->Keys[GLFW_KEY_W])
+        {
+            this->MainMenu.ChangeSelectedOption(MENU_UP);
+        }
+        //since MainMenu only has 2 options for now just do the same for KEY_S
+        if (this->Keys[GLFW_KEY_S])
+        {
+            this->MainMenu.ChangeSelectedOption(MENU_UP);
+        }
+
+        if (this->Keys[GLFW_KEY_ENTER])
+        {
+            //if true then start game
+            if (this->MainMenu.ActivateMenu())
+            {
+                this->State = GAME_ACTIVE;
+                Player->Health = 3;
+            }
+        }
+    }
 }
 
 void Game::Render()
 {
-    /*
     if (this->State == GAME_MENU)
     {
         //render the menu
+        this->MainMenu.Draw(*Renderer);
     }
-    */
    
     if (this->State == GAME_ACTIVE)
     {
