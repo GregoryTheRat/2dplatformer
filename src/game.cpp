@@ -32,6 +32,9 @@ void Game::Init()
     Renderer = new SpriteRenderer(ResourceManager::GetShader("sprite"));
     ResourceManager::LoadTexture("../../assets/img/pepe.png", true, "pepe");
     ResourceManager::LoadTexture("../../assets/img/platforms/container.png", false, "container");
+    //buttons
+    ResourceManager::LoadTexture("../../assets/img/start.png", true, "startBtn");
+    ResourceManager::LoadTexture("../../assets/img/exit.png", true, "exitBtn");
 
     MainMenu = GameMenu(this->Width, this->Height);
 

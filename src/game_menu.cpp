@@ -13,8 +13,8 @@ GameMenu::GameMenu(int Width, int Height)
     float optionHeight = Height * 0.2;
     glm::vec2 optionSize(optionWidth, optionHeight);
     float optionPosX = (Width - optionWidth) / 2;
-    GameObject start(glm::vec2(optionPosX, optionHeight), glm::vec2(optionWidth, optionHeight), ResourceManager::GetTexture("container"), glm::vec3(0.0f, 1.0f, 0.0f));
-    GameObject quit(glm::vec2(optionPosX, start.Position.y + optionHeight * 2), glm::vec2(optionWidth, optionHeight), ResourceManager::GetTexture("container"), glm::vec3(1.0f, 1.0f, 1.0f));
+    GameObject start(glm::vec2(optionPosX, optionHeight), glm::vec2(optionWidth, optionHeight), ResourceManager::GetTexture("startBtn"), glm::vec3(0.0f, 1.0f, 0.0f));
+    GameObject quit(glm::vec2(optionPosX, start.Position.y + optionHeight * 2), glm::vec2(optionWidth, optionHeight), ResourceManager::GetTexture("exitBtn"), glm::vec3(1.0f, 1.0f, 1.0f));
     this->Options.push_back(start);
     this->Options.push_back(quit);
     this->Idx = 0;
