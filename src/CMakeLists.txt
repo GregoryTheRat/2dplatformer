@@ -12,6 +12,7 @@ set(SOURCES
     spike_platform.cpp
     level_end_platform.cpp 
     game_menu.cpp
+    victory_screen.cpp
 )
 
 add_library(GameLibrary ${SOURCES})

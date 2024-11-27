@@ -22,7 +22,7 @@ private:
      
 public:
     GameMenu();
-    GameMenu(int Widht, int Height);
+    GameMenu(int Width, int Height);
     ~GameMenu();
     //direction of menu option change
     void UpdateCooldown(float dt);

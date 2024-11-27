@@ -5,6 +5,7 @@
 #include <GLFW/glfw3.h>
 #include "game_level.h"
 #include "game_menu.h"
+#include "victory_screen.h"
 
 enum GameState
 {
@@ -19,6 +20,8 @@ class Game
         GameState State;
         bool Keys[1024];
         GameMenu MainMenu; 
+        //VictoryScreen VictoryScr;
+        
         unsigned int Width, Height;
         std::vector<GameLevel> Levels;
         unsigned int Level;

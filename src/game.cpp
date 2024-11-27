@@ -5,13 +5,14 @@
 #include "resource_manager.h"
 #include "sprite_renderer.h"
 #include "player_object.h"
+#include "victory_screen.h"
 
 
 SpriteRenderer *Renderer;
 PlayerObject *Player;
 
 Game::Game(unsigned int width, unsigned int height)
-    : State(GAME_MENU), Keys(), Width(width), Height(height), MainMenu()
+    : State(GAME_MENU), Keys(), Width(width), Height(height), MainMenu()/*, VictoryScr()*/
 {
 
 }
@@ -37,6 +38,8 @@ void Game::Init()
     ResourceManager::LoadTexture("../../assets/img/exit.png", true, "exitBtn");
 
     MainMenu = GameMenu(this->Width, this->Height);
+    //printf("before victoryscr constructor\n");
+    //VictoryScr = VictoryScreen(this->Width, this->Height);
 
     GameLevel one; 
     GameLevel two;
