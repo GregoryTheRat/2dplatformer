@@ -31,7 +31,7 @@ public:
     void Dash();
 
     glm::vec2 Move(float dt);
-    void Respawn();
+    void Respawn(int dmg);
 
 private:
     void CalcYJumpVelocity();

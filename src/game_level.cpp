@@ -1,5 +1,9 @@
 #include "game_level.h"
 
+#include "pass_through_platform.h"
+#include "spike_platform.h"
+#include "level_end_platform.h"
+
 #include <fstream>
 #include <sstream>
 
@@ -8,7 +12,7 @@
 /// @param lvlWidth 
 /// @param lvlHeight 
 /// @return loads level from file, returns the calculated unit size and spawn point.
-glm::vec4 GameLevel::Load(const char *file, unsigned int levelWidth, unsigned int levelHeight)
+glm::vec2 GameLevel::Load(const char *file, unsigned int levelWidth, unsigned int levelHeight)
 {
     // clear old data
     this->Platforms.clear();
@@ -30,11 +34,11 @@ glm::vec4 GameLevel::Load(const char *file, unsigned int levelWidth, unsigned in
         }
         if (tileData.size() > 0)
         {
-            glm::vec4 unit_size = this->init(tileData, levelWidth, levelHeight);
+            glm::vec2 unit_size = this->init(tileData, levelWidth, levelHeight);
             return unit_size;
         }
     }
-    return glm::vec4 {0, 0, 0, 0};
+    return glm::vec2 {0.0f, 0.0f};
 }
 
 /// @brief 
@@ -42,10 +46,9 @@ glm::vec4 GameLevel::Load(const char *file, unsigned int levelWidth, unsigned in
 /// @param lvlWidth 
 /// @param lvlHeight 
 /// @return returns the calculated unit size based on the window and the amount of tiles.
-glm::vec4 GameLevel::init(std::vector<std::vector<unsigned int>> tileData, 
+glm::vec2 GameLevel::init(std::vector<std::vector<unsigned int>> tileData, 
                      unsigned int lvlWidth, unsigned int lvlHeight)
 {
-    glm::vec2 spawnPoint;
     // calculate dimensions
     unsigned int height = tileData.size();
     unsigned int width  = tileData[0].size();
@@ -99,14 +102,29 @@ glm::vec4 GameLevel::init(std::vector<std::vector<unsigned int>> tileData,
                 this->Platforms.push_back(obj);
             }
 
+            if (tileData[y][x] == 8) 
+            {
+                glm::vec2 pos(unit_width * x, unit_height * y);
+                glm::vec2 size(unit_width, unit_height);
+                std::shared_ptr<LevelEndPlatform> obj = std::make_shared<LevelEndPlatform>(
+                    pos,
+                    size, 
+                    ResourceManager::GetTexture("container"), 
+                    glm::vec3(0.0f, 1.0f, 0.0f)
+                );
+                obj->IsSolid = true;
+                this->Platforms.push_back(obj);
+                this->LevelEnd = {pos.x, pos.y};
+            }
+
             if (tileData[y][x] == 9)
             {
-               spawnPoint = {unit_width * x, unit_height * y}; 
+               this->SpawnPoint = {unit_width * x, unit_height * y}; 
             }
         }
     }  
 
-    return glm::vec4 {unit_width, unit_height, spawnPoint.x, spawnPoint.y};
+    return glm::vec2 {unit_width, unit_height};
 }
 
 void GameLevel::Draw(SpriteRenderer &renderer)

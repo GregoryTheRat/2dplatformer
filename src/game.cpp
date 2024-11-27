@@ -39,14 +39,20 @@ void Game::Init()
     MainMenu = GameMenu(this->Width, this->Height);
 
     GameLevel one; 
-    //levelData contains unit size and spawn point
-    glm::vec4 levelData = one.Load("../../levels/first.txt", this->Width, this->Height);
+    GameLevel two;
+    GameLevel three;
+    //levelData contains unit size, spawn point and levelEnd coords
+    glm::vec2 levelData = one.Load("../../levels/one.txt", this->Width, this->Height);
+    two.Load("../../levels/two.txt", this->Width, this->Height); 
+    three.Load("../../levels/three.txt", this->Width, this->Height);
     //TODO: try to find a better way to determine player size
     glm::vec2 playerSize = {levelData.y, levelData.x};
     this->Levels.push_back(one);
+    this->Levels.push_back(two);
+    this->Levels.push_back(three);
     this->Level = 0;
     
-    glm::vec2 spawnPoint = {levelData.z + playerSize.x, levelData.w};
+    glm::vec2 spawnPoint = this->Levels[this->Level].SpawnPoint;
     Player = new PlayerObject(spawnPoint, playerSize, 3, ResourceManager::GetTexture("pepe"));
 }
 
@@ -55,6 +61,7 @@ void Game::Update(float dt)
     if (Player->Health == 0)
     {
         this->State = GAME_MENU;
+        this->Level = 0;
     }
 
     if (this->State == GAME_ACTIVE)
@@ -167,6 +174,29 @@ void Game::DoCollisions()
         {
             if (CheckCollision(*Player, *platform))
             {
+                glm::vec2 levelEnd = this->Levels[this->Level].LevelEnd;
+                if (platform->Position.x == levelEnd.x &&
+                    platform->Position.y == levelEnd.y)
+                {
+                    this->Level++;
+                    printf("moving on to level %u\n", this->Level);
+                    if (this->Level == this->Levels.size())
+                    {
+                        printf("end of game\n");
+                        this->State = GAME_WIN;
+                        return;
+                    }
+                    Player->SpawnPoint = this->Levels[this->Level].SpawnPoint;
+                    /*
+                    print out level data for debug
+                    for ()
+                    {
+
+                    }*/
+                    Player->Respawn(0);
+                    return;
+                }
+
                 collided = true;
                 platform->DoCollisionBehaviour(Player);
             }

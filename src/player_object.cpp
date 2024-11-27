@@ -149,10 +149,10 @@ void PlayerObject::Jump() {
     }
 }
 
-void PlayerObject::Respawn() {
+void PlayerObject::Respawn(int dmg) {
     this->Position = SpawnPoint;
     this->Velocity = glm::vec2(0.0f, 0.0f);
-    this->Health--;
+    this->Health -= dmg;
     this->Stuck = false;
     this->Dashing = false; 
     this->DashCooldownT = 0.0f;

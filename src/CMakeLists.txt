@@ -10,6 +10,7 @@ set(SOURCES
     player_object.cpp
     pass_through_platform.cpp
     spike_platform.cpp
+    level_end_platform.cpp 
     game_menu.cpp
 )
 

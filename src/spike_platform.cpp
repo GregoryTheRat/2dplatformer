@@ -23,5 +23,5 @@ void SpikePlatform::DoCollisionBehaviour(GameObject *otherObject)
     }
     
     //hurt the respawn the player with -1 hp
-    player->Respawn();
+    player->Respawn(1);
 }
