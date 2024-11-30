@@ -5,16 +5,14 @@
 #include "resource_manager.h"
 #include "sprite_renderer.h"
 #include "player_object.h"
-#include "victory_screen.h"
 
 
 SpriteRenderer *Renderer;
 PlayerObject *Player;
 
 Game::Game(unsigned int width, unsigned int height)
-    : State(GAME_MENU), Keys(), Width(width), Height(height), MainMenu()/*, VictoryScr()*/
+    : State(GAME_MENU), Keys(), Width(width), Height(height), MainMenu(), WinScreen()
 {
-
 }
 
 Game::~Game() 
@@ -36,10 +34,12 @@ void Game::Init()
     //buttons
     ResourceManager::LoadTexture("../../assets/img/start.png", true, "startBtn");
     ResourceManager::LoadTexture("../../assets/img/exit.png", true, "exitBtn");
+    //win screen
+    ResourceManager::LoadTexture("../../assets/img/win.png", false, "win");
 
-    MainMenu = GameMenu(this->Width, this->Height);
+    this->MainMenu = GameMenu(this->Width, this->Height);
     //printf("before victoryscr constructor\n");
-    //VictoryScr = VictoryScreen(this->Width, this->Height);
+    this->WinScreen = VictoryScreen(this->Width, this->Height);
 
     GameLevel one; 
     GameLevel two;
@@ -154,6 +154,11 @@ void Game::Render()
 
         Player->Draw(*Renderer);
         this->Levels[this->Level].Draw(*Renderer);
+    }
+
+    if (this->State == GAME_WIN)
+    {
+        this->WinScreen.Draw(*Renderer);
     }
 }
 

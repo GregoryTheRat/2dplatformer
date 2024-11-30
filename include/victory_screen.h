@@ -2,13 +2,13 @@
 #define VICTORYSCREEN_H
 
 #include "sprite_renderer.h"
-#include "resource_manager.h"
 #include "game_object.h"
+#include <vector>
 
 class VictoryScreen 
 {
 private:
-    GameObject VictoryText;
+    std::vector<GameObject> VictoryTexts;
 
 public:
     VictoryScreen();

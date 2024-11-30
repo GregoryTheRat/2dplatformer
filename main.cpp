@@ -15,8 +15,8 @@
 void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 
-const unsigned int SCR_WIDTH = 1820;
-const unsigned int SCR_HEIGHT = 980;
+const unsigned int SCR_WIDTH = 1920;
+const unsigned int SCR_HEIGHT = 1080;
 
 Game Platformer(SCR_WIDTH, SCR_HEIGHT);
 
@@ -34,12 +34,12 @@ int main()
     //glfw initialization
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     //glfw window creation
-    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
-    if (window == NULL)
+    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", glfwGetPrimaryMonitor(), NULL);
+    if (window == NULL) 
     {
         std::cout << "failed to create glfw window" << std::endl;
         glfwTerminate();

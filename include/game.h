@@ -3,9 +3,9 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include "victory_screen.h"
 #include "game_level.h"
 #include "game_menu.h"
-#include "victory_screen.h"
 
 enum GameState
 {
@@ -20,7 +20,7 @@ class Game
         GameState State;
         bool Keys[1024];
         GameMenu MainMenu; 
-        //VictoryScreen VictoryScr;
+        VictoryScreen WinScreen;
         
         unsigned int Width, Height;
         std::vector<GameLevel> Levels;
@@ -36,6 +36,8 @@ class Game
         //check for collision based on bounding box (axis-aligned bounding box)
         bool CheckCollision(GameObject &one, GameObject &two);
         void DoCollisions();
+    
+    private:
 };
 
 #endif
