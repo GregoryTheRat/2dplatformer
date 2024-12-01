@@ -38,7 +38,6 @@ void Game::Init()
     ResourceManager::LoadTexture("../../assets/img/win.png", false, "win");
 
     this->MainMenu = GameMenu(this->Width, this->Height);
-    //printf("before victoryscr constructor\n");
     this->WinScreen = VictoryScreen(this->Width, this->Height);
 
     GameLevel one; 
@@ -71,7 +70,6 @@ void Game::Update(float dt)
     {
         Player->Move(dt);
         this->DoCollisions();
-        //printf("player pos: %f, %f\n", Player->Position.x, Player->Position.y);
     }
 
     if (this->State == GAME_MENU)
@@ -182,25 +180,18 @@ void Game::DoCollisions()
         {
             if (CheckCollision(*Player, *platform))
             {
+                //TODO: move this into the collision behavior of the LevelEndPlatform. needs a pointer to the current level
                 glm::vec2 levelEnd = this->Levels[this->Level].LevelEnd;
                 if (platform->Position.x == levelEnd.x &&
                     platform->Position.y == levelEnd.y)
                 {
                     this->Level++;
-                    printf("moving on to level %u\n", this->Level);
                     if (this->Level == this->Levels.size())
                     {
-                        printf("end of game\n");
                         this->State = GAME_WIN;
                         return;
                     }
                     Player->SpawnPoint = this->Levels[this->Level].SpawnPoint;
-                    /*
-                    print out level data for debug
-                    for ()
-                    {
-
-                    }*/
                     Player->Respawn(0);
                     return;
                 }

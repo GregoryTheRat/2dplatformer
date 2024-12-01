@@ -137,15 +137,8 @@ void GameLevel::Draw(SpriteRenderer &renderer)
 bool GameLevel::IsCompleted()
 {
     return false;
-    //when the lvl is finished, free the memory
 }
 
 GameLevel::~GameLevel()
 {
-    /*
-    for (GameObject *obj : Platforms) {
-        delete obj;
-    }
-    Platforms.clear();
-    */
 }
