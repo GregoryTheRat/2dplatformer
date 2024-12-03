@@ -10,6 +10,8 @@
 SpriteRenderer *Renderer;
 PlayerObject *Player;
 
+#define DEBUG 0
+
 Game::Game(unsigned int width, unsigned int height)
     : State(GAME_MENU), Keys(), Width(width), Height(height), MainMenu(), WinScreen()
 {
@@ -44,6 +46,7 @@ void Game::Init()
     GameLevel two;
     GameLevel three;
     //levelData contains unit size, spawn point and levelEnd coords
+    // 73.846153, 72.000000
     glm::vec2 levelData = one.Load("../../levels/one.txt", this->Width, this->Height);
     two.Load("../../levels/two.txt", this->Width, this->Height); 
     three.Load("../../levels/three.txt", this->Width, this->Height);
@@ -150,8 +153,13 @@ void Game::Render()
     {
         //draw background
 
-        Player->Draw(*Renderer);
+        if (DEBUG)
+        {
+            this->Levels[this->Level].PartitionGrid.Draw(*Renderer);
+        }
+
         this->Levels[this->Level].Draw(*Renderer);
+        Player->Draw(*Renderer);
     }
 
     if (this->State == GAME_WIN)
@@ -174,6 +182,37 @@ bool Game::CheckCollision(GameObject &one, GameObject &two)
 void Game::DoCollisions()
 {
     bool collided = false;
+
+    //testing grid based partitioning
+    std::unordered_set<std::shared_ptr<GameObject>> platformsInCell = this->Levels[this->Level].PartitionGrid.QueryGrid(Player->Position, Player->Size);
+
+    for(const auto& platform : platformsInCell)
+    {
+        if (CheckCollision(*Player, *platform))
+        {
+            //TODO: move this into the collision behavior of the LevelEndPlatform. needs a pointer to the current level
+            glm::vec2 levelEnd = this->Levels[this->Level].LevelEnd;
+            if (platform->Position.x == levelEnd.x &&
+                platform->Position.y == levelEnd.y)
+            {
+                this->Level++;
+                if (this->Level == this->Levels.size())
+                {
+                    this->State = GAME_WIN;
+                    return;
+                }
+                Player->SpawnPoint = this->Levels[this->Level].SpawnPoint;
+                Player->Respawn(0);
+                return;
+            }
+
+            collided = true;
+            platform->DoCollisionBehaviour(Player);
+        }
+    }
+
+    //-------------------------------
+    /*
     for (const auto& platform : this->Levels[this->Level].Platforms)
     {
         if (!platform->Destroyed)
@@ -200,7 +239,7 @@ void Game::DoCollisions()
                 platform->DoCollisionBehaviour(Player);
             }
         }
-    }
+    }*/
 
     if (!collided)
     {

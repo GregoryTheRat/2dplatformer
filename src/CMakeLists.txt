@@ -7,6 +7,7 @@ set(SOURCES
     sprite_renderer.cpp
     game_object.cpp
     game_level.cpp
+    grid.cpp
     player_object.cpp
     pass_through_platform.cpp
     spike_platform.cpp

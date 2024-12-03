@@ -72,6 +72,7 @@ glm::vec2 GameLevel::init(std::vector<std::vector<unsigned int>> tileData,
                 );
                 obj->IsSolid = true;
                 this->Platforms.push_back(obj);
+                this->PartitionGrid.AddObjectToGrid(obj);
             }
 
             if (tileData[y][x] == 2) 
@@ -86,6 +87,7 @@ glm::vec2 GameLevel::init(std::vector<std::vector<unsigned int>> tileData,
                 );
                 obj->IsSolid = true;
                 this->Platforms.push_back(obj);
+                this->PartitionGrid.AddObjectToGrid(obj);
             }
 
             if (tileData[y][x] == 3) 
@@ -100,6 +102,7 @@ glm::vec2 GameLevel::init(std::vector<std::vector<unsigned int>> tileData,
                 );
                 obj->IsSolid = true;
                 this->Platforms.push_back(obj);
+                this->PartitionGrid.AddObjectToGrid(obj);
             }
 
             if (tileData[y][x] == 8) 
@@ -114,6 +117,7 @@ glm::vec2 GameLevel::init(std::vector<std::vector<unsigned int>> tileData,
                 );
                 obj->IsSolid = true;
                 this->Platforms.push_back(obj);
+                this->PartitionGrid.AddObjectToGrid(obj);
                 this->LevelEnd = {pos.x, pos.y};
             }
 

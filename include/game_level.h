@@ -9,12 +9,14 @@
 #include "game_object.h"
 #include "sprite_renderer.h"
 #include "resource_manager.h"
+#include "grid.h"
 
 class GameLevel 
 {
 public:
     // level state
     std::vector<std::shared_ptr<GameObject>> Platforms;
+    Grid PartitionGrid;
     glm::vec2 SpawnPoint;
     glm::vec2 LevelEnd;
     // constructor
