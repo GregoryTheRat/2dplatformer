@@ -1,10 +1,16 @@
 #include "game.h"
 
+
 #include <iostream>
+
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
 
 #include "resource_manager.h"
 #include "sprite_renderer.h"
 #include "player_object.h"
+
+
 
 
 SpriteRenderer *Renderer;
@@ -59,6 +65,36 @@ void Game::Init()
     
     glm::vec2 spawnPoint = this->Levels[this->Level].SpawnPoint;
     Player = new PlayerObject(spawnPoint, playerSize, 3, ResourceManager::GetTexture("pepe"));
+
+
+    // Initialize SDL2 audio subsystem
+    if (SDL_Init(SDL_INIT_AUDIO) < 0) {
+        std::cerr << "Failed to initialize SDL: " << SDL_GetError() << std::endl;
+    }
+
+    // Initialize SDL2_mixer with default settings
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+        std::cerr << "Failed to initialize SDL_mixer: " << Mix_GetError() << std::endl;
+        SDL_Quit();
+    }
+
+    Mix_Music* music = Mix_LoadMUS("background_music.ogg");
+    if (!music) {
+        std::cerr << "Failed to load music: " << Mix_GetError() << std::endl;
+        Mix_CloseAudio();
+        SDL_Quit();
+    }
+
+    // Play the music (loop indefinitely)
+    Mix_PlayMusic(music, -1);
+
+    std::cout << "Playing music. Press Enter to exit..." << std::endl;
+    std::cin.get();
+
+    // Clean up resources
+    Mix_FreeMusic(music);
+    Mix_CloseAudio();
+    SDL_Quit();
 }
 
 void Game::Update(float dt)

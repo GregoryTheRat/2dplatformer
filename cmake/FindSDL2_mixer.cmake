@@ -1,0 +1,20 @@
+find_package(SDL2 REQUIRED)
+
+find_path(SDL2_MIXER_INCLUDE_DIR SDL_mixer.h
+          HINTS ${SDL2_INCLUDE_DIR} ${SDL2_INCLUDE_DIRS}
+          PATH_SUFFIXES SDL2)
+
+find_library(SDL2_MIXER_LIBRARY
+             NAMES SDL2_mixer
+             HINTS ${SDL2_LIBRARY} ${SDL2_LIBRARIES})
+
+if(SDL2_MIXER_INCLUDE_DIR AND SDL2_MIXER_LIBRARY)
+    set(SDL2_MIXER_FOUND TRUE)
+endif()
+
+if(SDL2_MIXER_FOUND)
+    set(SDL2_MIXER_INCLUDE_DIRS ${SDL2_MIXER_INCLUDE_DIR})
+    set(SDL2_MIXER_LIBRARIES ${SDL2_MIXER_LIBRARY})
+else()
+    message(FATAL_ERROR "SDL2_mixer not found")
+endif()
