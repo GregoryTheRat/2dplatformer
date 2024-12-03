@@ -78,7 +78,7 @@ void Game::Init()
         SDL_Quit();
     }
 
-    Mix_Music* music = Mix_LoadMUS("background_music.ogg");
+    Mix_Music* music = Mix_LoadMUS("../../assets/music/background_music.ogg");
     if (!music) {
         std::cerr << "Failed to load music: " << Mix_GetError() << std::endl;
         Mix_CloseAudio();
