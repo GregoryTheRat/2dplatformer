@@ -51,12 +51,15 @@ glm::vec2 PlayerObject::Move(float dt)
 void PlayerObject::Dash()
 {
     if (!CanDash)
+    {
         return;
+    }
 
     Dashing = true;
     CanDash = false;
     DashT = 0.0f;
     DashCooldownT = 0.0f;
+    Sound::PlaySoundEffect("dash");
 }
 
 void PlayerObject::CalcDash(float dt)

@@ -20,6 +20,7 @@ void Sound::Init()
     }
 
     LoadSoundEffect("jump", "../../assets/soundfx/jump.mp3");
+    LoadSoundEffect("dash", "../../assets/soundfx/dash.wav");
 }
 
 void Sound::StartBgMusic()
@@ -42,7 +43,14 @@ void Sound::LoadSoundEffect(const std::string& name, const std::string& filePath
         std::cerr << "Failed to load sound effect (" << filePath << "): " << Mix_GetError() << std::endl;
         return;
     }
+
     Mix_VolumeChunk(sound, 25);
+
+    if (name == "dash")
+    {
+        Mix_VolumeChunk(sound, 3);
+    }
+    
     soundEffects[name] = sound;
 }
 
