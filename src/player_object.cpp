@@ -1,5 +1,6 @@
 #include "player_object.h"
 #include "GLFW/glfw3.h"
+#include "sound.h"
 
 PlayerObject::PlayerObject()
     : GameObject(), Health(3), Stuck(false), Jumping(false), CanJump(false), CanDash(true) {}
@@ -146,6 +147,7 @@ void PlayerObject::Jump() {
         this->Velocity.x = this->Velocity.x * cos(jumpAngle);    
         this->Velocity.y = maxVelocityY * sin(jumpAngle);    
         Jumping = true;
+        Sound::PlaySoundEffect("jump");
     }
 }
 

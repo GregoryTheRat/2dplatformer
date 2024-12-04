@@ -14,6 +14,7 @@ set(SOURCES
     level_end_platform.cpp 
     game_menu.cpp
     victory_screen.cpp
+    sound.cpp
 )
 
 add_library(GameLibrary ${SOURCES})
