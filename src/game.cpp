@@ -9,7 +9,7 @@
 SpriteRenderer *Renderer;
 PlayerObject *Player;
 
-#define DEBUG 0
+#define DEBUG 1
 
 Game::Game(unsigned int width, unsigned int height)
     : State(GAME_MENU), Keys(), Width(width), Height(height), MainMenu(), WinScreen()
